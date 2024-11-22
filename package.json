@@ -1,0 +1,11 @@
+{
+  "name": "i18n-app-router",
+  "version": "1.0.0",
+  "description": "Route localizer for Next.js App Router",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Joni Vainio-Kaila",
+  "license": "MIT"
+}
