@@ -4,7 +4,7 @@ import { pathToRegexp } from "path-to-regexp";
 import type { Schema } from "~/cli/types";
 import { toUnionType } from "~/cli/utils/ts-utils";
 
-const PACKAGE_DIST_DIR = "./node_modules/i18n-app-router/dist";
+const PACKAGE_DIST_DIR = "./node_modules/next-i18n-gen/dist";
 
 type PatternKey = (typeof PATTERN_KEYS)[number];
 const PATTERN_KEYS = [

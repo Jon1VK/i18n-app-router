@@ -3,7 +3,7 @@ import path from "path";
 import type { Config } from "~/cli";
 import type { OriginRoute } from "~/cli/types";
 
-const PACKAGE_DIST_DIR = "./node_modules/i18n-app-router/dist";
+const PACKAGE_DIST_DIR = "./node_modules/next-i18n-gen/dist";
 
 export function generateSchema(config: Config, originRoutes: OriginRoute[]) {
   const routes: Record<string, Record<string, string>> = {};
