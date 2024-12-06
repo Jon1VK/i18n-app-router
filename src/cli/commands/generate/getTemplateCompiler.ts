@@ -22,7 +22,7 @@ export function compileTemplate(
 
 const baseTemplate = ""
   .concat(
-    "// eslint-disable-next-line @typescript-eslint/ban-ts-comment\n",
+    "/* eslint-disable */\n",
     "// @ts-nocheck\n\n",
     'import { setLocale } from "next-i18n-gen";\n',
     `import Origin${PATTERNS.routeType} from "${PATTERNS.relativePath}";\n\n`,
@@ -34,7 +34,7 @@ const baseTemplate = ""
 
 const layoutTemplate = ""
   .concat(
-    "// eslint-disable-next-line @typescript-eslint/ban-ts-comment\n",
+    "/* eslint-disable */\n",
     "// @ts-nocheck\n\n",
     'import { LocaleProvider, setLocale } from "next-i18n-gen";\n',
     `import Origin${PATTERNS.routeType} from "${PATTERNS.relativePath}";\n\n`,
