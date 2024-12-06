@@ -26,7 +26,7 @@ export function generateSchema(config: Config, originRoutes: OriginRoute[]) {
   const typesTemplatePath = path.join(PACKAGE_DIST_DIR, "routerTemplate.d.ts");
   const routerTemplate = readFileSync(routerTemplatePath).toString();
   const typesTemplate = readFileSync(typesTemplatePath).toString();
-  const JSONSchema = JSON.stringify(schema, null, "\t");
+  const JSONSchema = JSON.stringify(schema);
   const newRouterFile = routerTemplate.replace('"{{schema}}"', JSONSchema);
   const newTypesFile = typesTemplate.replace("MockSchema;", `${JSONSchema};`);
   const routerFilePath = path.join(PACKAGE_DIST_DIR, "router.js");

@@ -7,5 +7,6 @@ export default defineConfig({
     router: "src/router/index.ts",
   },
   clean: true,
+  minify: true,
   dts: true,
 });
