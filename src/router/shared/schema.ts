@@ -3,6 +3,7 @@ import { CliError } from "./errors";
 type MockSchema = {
   locales: string[];
   defaultLocale: string;
+  prefixDefaultLocale: boolean;
   routes: Record<string, Record<string, string>>;
 };
 

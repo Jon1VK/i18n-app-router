@@ -1,7 +1,6 @@
 import { readFileSync, writeFileSync } from "fs";
 import path from "path";
-import type { Config } from "~/cli";
-import type { OriginRoute } from "~/cli/types";
+import type { Config, OriginRoute } from "~/cli/types";
 
 const DIST_DIR = "./node_modules/next-i18n-gen/dist";
 
@@ -20,6 +19,7 @@ export function generateSchema(config: Config, originRoutes: OriginRoute[]) {
   const schema = {
     locales: config.locales,
     defaultLocale: config.defaultLocale,
+    prefixDefaultLocale: config.prefixDefaultLocale,
     routes,
   };
   const clientTemplatePath = path.join(DIST_DIR, "index.client.template.js");
@@ -84,9 +84,9 @@ function removeInterceptedSegments(input: string) {
 
 function formatDynamicSegments(input: string) {
   return input
-    .replace(/\/\[\[\.\.\.(\w+)\]\]/g, "{/*$1}") // /[[...slug]] -> {/*slug}
-    .replace(/\/\[\.\.\.(\w+)\]/g, "/*$1") // /[...slug] -> /*slug
-    .replace(/\/\[(\w+)\]/g, "/:$1"); // /[slug] -> /:slug
+    .replace(/\/\[{2}\.{3}([^\]]+)\]{2}/g, "{/*$1}") // /[[...slug]] -> {/*slug}
+    .replace(/\/\[\.{3}([^\]]+)\]/g, "/*$1") // /[...slug] -> /*slug
+    .replace(/\/\[([^\]]+)\]/g, "/:$1"); // /[slug] -> /:slug
 }
 
 function asRootPath(input: string) {

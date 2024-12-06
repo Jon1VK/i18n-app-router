@@ -5,6 +5,7 @@ export default defineConfig({
   minify: true,
   entry: {
     cli: "src/cli/index.ts",
+    middleware: "src/middleware/index.ts",
     "index.client.template": "src/router/client/index.ts",
     "index.client": "src/router/client/index.ts",
     "index.server.template": "src/router/server/index.ts",
@@ -13,6 +14,7 @@ export default defineConfig({
   dts: {
     entry: {
       cli: "src/cli/index.ts",
+      middleware: "src/middleware/index.ts",
       "index.client.template": "src/router/client/index.ts",
       "index.client": "src/router/client/index.ts",
     },

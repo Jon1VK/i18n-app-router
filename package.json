@@ -21,13 +21,16 @@
     "test": "vitest --no-watch"
   },
   "dependencies": {
+    "@formatjs/intl-localematcher": "^0.5.8",
     "commander": "^12.1.0",
     "figlet": "^1.8.0",
+    "negotiator": "^1.0.0",
     "path-to-regexp": "^8.2.0",
     "tsup": "^8.3.5"
   },
   "devDependencies": {
     "@types/figlet": "^1.7.0",
+    "@types/negotiator": "^0.6.3",
     "@types/node": "^22.10.1",
     "@types/react": "^19.0.0",
     "next": "^15.0.4",
