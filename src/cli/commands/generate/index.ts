@@ -22,9 +22,8 @@ export async function generate(args: { config: string }) {
     generateSchema(config, originRoutes);
     const endTime = process.hrtime(startTime);
     const timeDiffInMs = (endTime[0] * 1000 + endTime[1] / 1000000).toFixed(2);
-    const localizedRouteCount = config.locales.length * originRoutes.length;
     console.info(
-      `\x1b[32mnext-i18n-gen\x1b[37m - Generated ${localizedRouteCount} localized files in ${timeDiffInMs}ms`
+      `\x1b[32mnext-i18n-gen\x1b[37m - Localized ${originRoutes.length} files in ${timeDiffInMs}ms`
     );
   } catch (error) {
     console.error(error);
