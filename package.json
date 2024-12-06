@@ -1,11 +1,11 @@
 {
-  "name": "i18n-app-router",
+  "name": "next-i18n-gen",
   "version": "0.1.0",
   "description": "Route Localizer for Next.js App Router",
   "author": "Joni Vainio-Kaila",
   "license": "MIT",
   "bin": {
-    "i18n-app-router": "./dist/cli.js"
+    "next-i18n-gen": "./dist/cli.js"
   },
   "exports": {
     ".": {
@@ -28,8 +28,13 @@
   "devDependencies": {
     "@types/figlet": "^1.7.0",
     "@types/node": "^22.9.1",
+    "@types/react": "^19.0.0",
     "prettier": "^3.4.1",
+    "react": "^19.0.0",
     "typescript": "^5.6.3",
     "vitest": "^2.1.5"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0"
   }
 }

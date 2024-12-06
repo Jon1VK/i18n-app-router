@@ -1,19 +1,17 @@
-import { compile } from "path-to-regexp";
+import { CliError } from "./errors";
+import { schema } from "./schema";
 
-type Schema = {
-  locales: string[];
-  defaultLocale: string;
-  routes: Record<string, Record<string, string>>;
-};
+export { getHref } from "./getHref";
+export { getLocale } from "./getLocale";
+export {
+  schema,
+  type DynamicRoute,
+  type Route,
+  type RouteLocale,
+  type RouteParams,
+  type StaticRoute,
+} from "./schema";
 
-export const schema = "{{schema}}" as unknown as Schema;
-
-export function getHref(
-  routeName: string,
-  locale: string,
-  params: Partial<Record<string, string | string[]>>
-) {
-  const path = schema.routes[routeName][locale];
-  const compiler = compile(path);
-  return compiler(params);
+if (typeof schema === "string") {
+  throw new CliError("Router schema for next-i18n-gen has not been generated");
 }

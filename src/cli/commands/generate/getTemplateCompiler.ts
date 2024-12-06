@@ -24,9 +24,11 @@ const baseTemplate = ""
   .concat(
     "// eslint-disable-next-line @typescript-eslint/ban-ts-comment\n",
     "// @ts-nocheck\n\n",
+    'import { setLocale } from "next-i18n-gen";\n',
     `import Origin${PATTERNS.routeType} from "${PATTERNS.relativePath}";\n\n`,
     `export default function ${PATTERNS.routeType}(props) {\n`,
-    `\treturn <Origin${PATTERNS.routeType} {...props} locale="${PATTERNS.locale}" />\n}`
+    `\tsetLocale("${PATTERNS.locale};")`,
+    `\treturn <Origin${PATTERNS.routeType} {...props} locale="${PATTERNS.locale}" />;\n}`
   )
   .trim();
 
