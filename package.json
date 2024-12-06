@@ -9,7 +9,8 @@
   },
   "exports": {
     ".": {
-      "default": "./dist/router.js"
+      "react-server": "./dist/index.server.js",
+      "default": "./dist/index.client.js"
     },
     "./cli": {
       "types": "./dist/cli.d.ts"

@@ -1,12 +1,20 @@
 import { defineConfig } from "tsup";
 
 export default defineConfig({
-  entry: {
-    cli: "src/cli/index.ts",
-    routerTemplate: "src/router/index.ts",
-    router: "src/router/index.ts",
-  },
   clean: true,
   minify: true,
-  dts: true,
+  entry: {
+    cli: "src/cli/index.ts",
+    "index.client.template": "src/router/client/index.ts",
+    "index.client": "src/router/client/index.ts",
+    "index.server.template": "src/router/server/index.ts",
+    "index.server": "src/router/server/index.ts",
+  },
+  dts: {
+    entry: {
+      cli: "src/cli/index.ts",
+      "index.client.template": "src/router/client/index.ts",
+      "index.client": "src/router/client/index.ts",
+    },
+  },
 });

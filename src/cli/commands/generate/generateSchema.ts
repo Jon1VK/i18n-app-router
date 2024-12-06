@@ -3,7 +3,7 @@ import path from "path";
 import type { Config } from "~/cli";
 import type { OriginRoute } from "~/cli/types";
 
-const PACKAGE_DIST_DIR = "./node_modules/next-i18n-gen/dist";
+const DIST_DIR = "./node_modules/next-i18n-gen/dist";
 
 export function generateSchema(config: Config, originRoutes: OriginRoute[]) {
   const routes: Record<string, Record<string, string>> = {};
@@ -22,17 +22,22 @@ export function generateSchema(config: Config, originRoutes: OriginRoute[]) {
     defaultLocale: config.defaultLocale,
     routes,
   };
-  const routerTemplatePath = path.join(PACKAGE_DIST_DIR, "routerTemplate.js");
-  const typesTemplatePath = path.join(PACKAGE_DIST_DIR, "routerTemplate.d.ts");
-  const routerTemplate = readFileSync(routerTemplatePath).toString();
+  const clientTemplatePath = path.join(DIST_DIR, "index.client.template.js");
+  const serverTemplatePath = path.join(DIST_DIR, "index.server.template.js");
+  const typesTemplatePath = path.join(DIST_DIR, "index.client.template.d.ts");
+  const clientTemplate = readFileSync(clientTemplatePath).toString();
+  const serverTemplate = readFileSync(serverTemplatePath).toString();
   const typesTemplate = readFileSync(typesTemplatePath).toString();
   const JSONSchema = JSON.stringify(schema);
-  const newRouterFile = routerTemplate.replace('"{{schema}}"', JSONSchema);
-  const newTypesFile = typesTemplate.replace("MockSchema;", `${JSONSchema};`);
-  const routerFilePath = path.join(PACKAGE_DIST_DIR, "router.js");
-  const typesFilePath = path.join(PACKAGE_DIST_DIR, "router.d.ts");
-  writeFileSync(routerFilePath, newRouterFile);
-  writeFileSync(typesFilePath, newTypesFile);
+  const clientFile = clientTemplate.replace('"{{schema}}"', JSONSchema);
+  const serverFile = serverTemplate.replace('"{{schema}}"', JSONSchema);
+  const typesFile = typesTemplate.replace("MockSchema;", `${JSONSchema};`);
+  const clientFilePath = path.join(DIST_DIR, "index.client.js");
+  const serverFilePath = path.join(DIST_DIR, "index.server.js");
+  const typesFilePath = path.join(DIST_DIR, "index.client.d.ts");
+  writeFileSync(clientFilePath, clientFile);
+  writeFileSync(serverFilePath, serverFile);
+  writeFileSync(typesFilePath, typesFile);
 }
 
 function getRouteName(originPath: string) {

@@ -1,11 +1,13 @@
 "use client";
 
 import { createContext, use, type ReactNode } from "react";
+import { setLocale as serverSetLocale } from "../server";
 import type { Locale } from "../shared/schema";
+import { notSupported } from "./notSupported";
 
 const LocaleContext = createContext<{ locale: Locale }>({ locale: "" });
 
-export default function LocaleProvider({
+export function LocaleProvider({
   children,
   locale,
 }: {
@@ -20,3 +22,4 @@ export default function LocaleProvider({
 }
 
 export const useLocale = () => use(LocaleContext).locale;
+export const setLocale = notSupported("setLocale") as typeof serverSetLocale;

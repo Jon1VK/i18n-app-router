@@ -1,3 +1,5 @@
+import { CliError } from "./errors";
+
 type MockSchema = {
   locales: string[];
   defaultLocale: string;
@@ -5,6 +7,10 @@ type MockSchema = {
 };
 
 export const schema = "{{schema}}" as unknown as MockSchema;
+
+if (typeof schema === "string") {
+  throw new CliError("Router schema for next-i18n-gen has not been generated");
+}
 
 type Schema = typeof schema;
 

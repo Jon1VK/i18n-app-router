@@ -48,6 +48,17 @@ const layoutTemplate = ""
   )
   .trim();
 
+const errorTemplate = ""
+  .concat(
+    "/* eslint-disable */\n",
+    "// @ts-nocheck\n\n",
+    '"use client"\n\n',
+    `import Origin${PATTERNS.routeType} from "${PATTERNS.relativePath}";\n\n`,
+    `export default function ${PATTERNS.routeType}(props) {\n`,
+    `\treturn <Origin${PATTERNS.routeType} {...props} />;\n}`
+  )
+  .trim();
+
 const routeTypeTemplates: Record<Exclude<RouteType, "copy">, string> = {
   layout: layoutTemplate,
   template: baseTemplate,
@@ -55,7 +66,7 @@ const routeTypeTemplates: Record<Exclude<RouteType, "copy">, string> = {
   default: baseTemplate,
   loading: withoutProps(baseTemplate),
   "not-found": withoutProps(baseTemplate),
-  error: withUseClient(baseTemplate),
+  error: errorTemplate,
   sitemap: baseTemplate,
   icon: baseTemplate,
   "apple-icon": baseTemplate,
@@ -86,13 +97,6 @@ export function getTemplateCompiler(config: Config, originRoute: OriginRoute) {
 
 function withoutProps(template: string) {
   return template.replace(" {...props}", "").replace("props", "");
-}
-
-function withUseClient(template: string) {
-  return template.replace(
-    "// @ts-nocheck\n\n",
-    '// @ts-nocheck\n\n"use client"\n\n'
-  );
 }
 
 function withReExport(template: string, originContents: string, name: string) {
