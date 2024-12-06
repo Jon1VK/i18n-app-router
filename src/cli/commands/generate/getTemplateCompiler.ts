@@ -28,7 +28,7 @@ const baseTemplate = ""
     `import Origin${PATTERNS.routeType} from "${PATTERNS.relativePath}";\n\n`,
     `export default function ${PATTERNS.routeType}(props) {\n`,
     `\tsetLocale("${PATTERNS.locale}");\n`,
-    `\treturn <Origin${PATTERNS.routeType} {...props} locale="${PATTERNS.locale}" />;\n}`
+    `\treturn <Origin${PATTERNS.routeType} {...props} />;\n}`
   )
   .trim();
 
@@ -42,7 +42,7 @@ const layoutTemplate = ""
     `\tsetLocale("${PATTERNS.locale}");\n`,
     "\treturn (\n",
     `\t\t<LocaleProvider locale="${PATTERNS.locale}">\n`,
-    `\t\t\t<Origin${PATTERNS.routeType} {...props} locale="${PATTERNS.locale}" />\n`,
+    `\t\t\t<Origin${PATTERNS.routeType} {...props} />\n`,
     "\t\t</LocaleProvider>\n",
     "\t);\n}"
   )
