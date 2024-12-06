@@ -9,17 +9,6 @@ const PATTERNS = Object.fromEntries(
   PATTERN_KEYS.map((key) => [key, `{{${key}}}`])
 ) as Record<PatternKey, string>;
 
-export function compileTemplate(
-  template: string,
-  params: Record<PatternKey, string>
-) {
-  let comiledContents = template;
-  PATTERN_KEYS.forEach((key) => {
-    comiledContents = comiledContents.replaceAll(PATTERNS[key], params[key]);
-  });
-  return comiledContents;
-}
-
 const baseTemplate = ""
   .concat(
     "/* eslint-disable */\n",

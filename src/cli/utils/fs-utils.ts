@@ -1,12 +1,4 @@
 import { existsSync, mkdirSync, rmSync, statSync } from "fs";
-import path from "path";
-
-/**
- * Converts a relative path to an absolute path in the current working dir
- */
-export function getAbsolutePath(relativePath: string) {
-  return path.join(process.cwd(), relativePath);
-}
 
 /**
  * Indicates if a path points to a directory

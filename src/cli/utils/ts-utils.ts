@@ -20,10 +20,3 @@ export async function compile<T>(filePath: string) {
 export function removeCompiledFiles() {
   rmDirectory(OUT_DIR);
 }
-
-export function toUnionType(arr: string[]) {
-  if (arr.length === 0) return "never";
-  const separator = arr.length < 5 ? " | " : "\n\t| ";
-  const prefix = arr.length < 5 ? "" : separator;
-  return prefix.concat(arr.map((v) => `"${v}"`).join(separator));
-}
