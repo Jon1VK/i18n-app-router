@@ -1,7 +1,7 @@
 import { cache } from "react";
-import type { RouteLocale } from "../shared/schema";
+import type { Locale } from "../shared/schema";
 
-type LocaleStore = { locale: RouteLocale };
+type LocaleStore = { locale: Locale };
 
 function createLocaleStore(): LocaleStore {
   return { locale: "" };
@@ -13,6 +13,6 @@ export function getLocale() {
   return getLocaleCache().locale;
 }
 
-export function setLocale(locale: RouteLocale) {
+export function setLocale(locale: Locale) {
   getLocaleCache().locale = locale;
 }

@@ -8,7 +8,7 @@ export const schema = "{{schema}}" as unknown as MockSchema;
 
 type Schema = typeof schema;
 
-export type RouteLocale = Schema["locales"][number];
+export type Locale = Schema["locales"][number];
 export type Route = keyof Schema["routes"];
 
 type ExtractStaticRoutes<T extends Route> = T extends `${any}[${any}`

@@ -1,16 +1,16 @@
 "use client";
 
 import { createContext, use, type ReactNode } from "react";
-import type { RouteLocale } from "../shared/schema";
+import type { Locale } from "../shared/schema";
 
-const LocaleContext = createContext<{ locale: RouteLocale }>({ locale: "" });
+const LocaleContext = createContext<{ locale: Locale }>({ locale: "" });
 
 export default function LocaleProvider({
   children,
   locale,
 }: {
   children: ReactNode;
-  locale: RouteLocale;
+  locale: Locale;
 }) {
   return (
     <LocaleContext.Provider value={{ locale }}>

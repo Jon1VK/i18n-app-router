@@ -4,13 +4,13 @@ import { RouterError } from "./errors";
 import {
   schema,
   type DynamicRoute,
+  type Locale,
   type Route,
-  type RouteLocale,
   type RouteParams,
 } from "./schema";
 
 type CompileHrefOptions<R extends Route> = {
-  locale?: RouteLocale;
+  locale?: Locale;
 } & (R extends DynamicRoute
   ? { params: RouteParams<R> }
   : { params?: undefined });
