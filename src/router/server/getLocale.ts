@@ -1,5 +1,5 @@
 import { cache } from "react";
-import type { RouteLocale } from "./schema";
+import type { RouteLocale } from "../shared/schema";
 
 type LocaleStore = { locale: RouteLocale };
 

@@ -27,13 +27,29 @@ const baseTemplate = ""
     'import { setLocale } from "next-i18n-gen";\n',
     `import Origin${PATTERNS.routeType} from "${PATTERNS.relativePath}";\n\n`,
     `export default function ${PATTERNS.routeType}(props) {\n`,
-    `\tsetLocale("${PATTERNS.locale};")`,
+    `\tsetLocale("${PATTERNS.locale}");\n`,
     `\treturn <Origin${PATTERNS.routeType} {...props} locale="${PATTERNS.locale}" />;\n}`
   )
   .trim();
 
+const layoutTemplate = ""
+  .concat(
+    "// eslint-disable-next-line @typescript-eslint/ban-ts-comment\n",
+    "// @ts-nocheck\n\n",
+    'import { LocaleProvider, setLocale } from "next-i18n-gen";\n',
+    `import Origin${PATTERNS.routeType} from "${PATTERNS.relativePath}";\n\n`,
+    `export default function ${PATTERNS.routeType}(props) {\n`,
+    `\tsetLocale("${PATTERNS.locale}");\n`,
+    "\treturn (\n",
+    `\t\t<LocaleProvider locale="${PATTERNS.locale}">\n`,
+    `\t\t\t<Origin${PATTERNS.routeType} {...props} locale="${PATTERNS.locale}" />\n`,
+    "\t\t</LocaleProvider>\n",
+    "\t);\n}"
+  )
+  .trim();
+
 const routeTypeTemplates: Record<Exclude<RouteType, "copy">, string> = {
-  layout: baseTemplate,
+  layout: layoutTemplate,
   template: baseTemplate,
   page: baseTemplate,
   default: baseTemplate,

@@ -1,16 +1,9 @@
-import { CliError } from "./errors";
-import { schema } from "./schema";
+import { CliError } from "./shared/errors";
+import { schema } from "./shared/schema";
 
-export { getHref } from "./getHref";
-export { getLocale } from "./getLocale";
-export {
-  schema,
-  type DynamicRoute,
-  type Route,
-  type RouteLocale,
-  type RouteParams,
-  type StaticRoute,
-} from "./schema";
+export * from "./client";
+export * from "./server";
+export * from "./shared";
 
 if (typeof schema === "string") {
   throw new CliError("Router schema for next-i18n-gen has not been generated");

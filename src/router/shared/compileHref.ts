@@ -1,6 +1,6 @@
 import { compile } from "path-to-regexp";
+import { getLocale } from "../server/getLocale";
 import { RouterError } from "./errors";
-import { getLocale } from "./getLocale";
 import {
   schema,
   type DynamicRoute,
@@ -9,15 +9,15 @@ import {
   type RouteParams,
 } from "./schema";
 
-type GetHrefOptions<R extends Route> = {
+type CompileHrefOptions<R extends Route> = {
   locale?: RouteLocale;
 } & (R extends DynamicRoute
   ? { params: RouteParams<R> }
   : { params?: undefined });
 
-export function getHref<R extends Route>(
+export function compileHref<R extends Route>(
   route: R,
-  opts?: GetHrefOptions<NoInfer<R>>
+  opts?: CompileHrefOptions<NoInfer<R>>
 ) {
   const localizedPaths = schema.routes[route];
   if (!localizedPaths) throw new RouterError(`Invalid route "${route}"`);
