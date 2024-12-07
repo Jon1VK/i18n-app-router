@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "incremental": true,
     "noUncheckedIndexedAccess": true,
     "strict": true,
     "allowJs": true,
@@ -20,6 +19,6 @@
       "~/*": ["src/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "next-i18n-gen.config.ts"],
   "exclude": ["**/node_modules", "dist"]
 }

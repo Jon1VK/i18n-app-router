@@ -19,22 +19,26 @@ function compilerFactory(config: Config) {
     const originPath = path.join(config.originDir, originRoute.path);
     const originPathDir = path.dirname(originPath);
     const compileTemplate = getTemplateCompiler(config, originRoute);
-    config.locales.forEach((locale) => {
-      const localizedRoutePath = originRoute.localizedPaths[locale]!;
-      const localizedPath = path.join(config.localizedDir, localizedRoutePath);
-      const localizedPathDir = path.dirname(localizedPath);
-      makeDirectory(localizedPathDir);
-      if (originRoute.type === "copy") {
-        return copyFileSync(originPath, localizedPath);
+    Object.entries(originRoute.localizedPaths).forEach(
+      ([locale, localizedRoutePath]) => {
+        const localizedPath = path.join(
+          config.localizedDir,
+          localizedRoutePath
+        );
+        const localizedPathDir = path.dirname(localizedPath);
+        makeDirectory(localizedPathDir);
+        if (originRoute.type === "copy") {
+          return copyFileSync(originPath, localizedPath);
+        }
+        const relativeDirPath = path.relative(localizedPathDir, originPathDir);
+        const relativePath = path.join(relativeDirPath, originRoute.type);
+        const compiledContents = compileTemplate({
+          routeType: toPascalCase(originRoute.type),
+          relativePath,
+          locale,
+        });
+        writeFileSync(localizedPath, compiledContents);
       }
-      const relativeDirPath = path.relative(localizedPathDir, originPathDir);
-      const relativePath = path.join(relativeDirPath, originRoute.type);
-      const compiledContents = compileTemplate({
-        routeType: toPascalCase(originRoute.type),
-        relativePath,
-        locale,
-      });
-      writeFileSync(localizedPath, compiledContents);
-    });
+    );
   };
 }

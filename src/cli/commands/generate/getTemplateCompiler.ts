@@ -64,7 +64,9 @@ const routeTypeTemplates: Record<Exclude<RouteType, "copy">, string> = {
 };
 
 export function getTemplateCompiler(config: Config, originRoute: OriginRoute) {
-  if (originRoute.type === "copy") return () => "";
+  if (originRoute.type === "copy") {
+    return () => "";
+  }
   const originPath = path.join(config.originDir, originRoute.path);
   const contents = readFileSync(originPath).toString();
   let template = routeTypeTemplates[originRoute.type];

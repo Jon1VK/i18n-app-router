@@ -28,6 +28,20 @@ export const getExpectedOriginRoutes = (
       },
     },
     {
+      type: "copy",
+      path: "/(static)/privacy-policy/page.en.mdx",
+      localizedPaths: {
+        en: "/en/(static)/privacy-policy/page.mdx",
+      },
+    },
+    {
+      type: "copy",
+      path: "/(static)/privacy-policy/page.fi.md",
+      localizedPaths: {
+        fi: `${prefix}/(static)/tietosuojaseloste/page.md`,
+      },
+    },
+    {
       type: "layout",
       path: "/(static)/layout.jsx",
       localizedPaths: {

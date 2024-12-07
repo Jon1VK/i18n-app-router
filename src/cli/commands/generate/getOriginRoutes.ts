@@ -26,16 +26,21 @@ export async function getOriginRoutes({
       ? await getRouteTranslations(filePath)
       : undefined;
     const localizedPaths = Object.fromEntries(
-      config.locales.map((locale) => {
-        const noLocalePrefix =
-          !config.prefixDefaultLocale && locale === config.defaultLocale;
-        const localePrefix = noLocalePrefix ? `(${locale})` : locale;
-        const localizedDir =
-          parentRoute?.localizedPaths[locale] ?? `/${localePrefix}`;
-        const localizedSegment = routeTranslations?.[locale] ?? file.name;
-        const localizedPath = `${localizedDir}/${localizedSegment}`;
-        return [locale, localizedPath];
-      })
+      config.locales
+        .map((locale) => {
+          if (isDifferentLocaleMarkdownPageFile(file, locale)) return;
+          const noLocalePrefix =
+            !config.prefixDefaultLocale && locale === config.defaultLocale;
+          const localePrefix = noLocalePrefix ? `(${locale})` : locale;
+          const localizedDir =
+            parentRoute?.localizedPaths[locale] ?? `/${localePrefix}`;
+          const localizedSegment =
+            routeTranslations?.[locale] ??
+            file.name.replace(`.${locale}.`, ".");
+          const localizedPath = `${localizedDir}/${localizedSegment}`;
+          return [locale, localizedPath];
+        })
+        .filter((v) => !!v)
     );
     const originRoute: OriginRoute = {
       type: file.type as RouteType,
@@ -56,6 +61,14 @@ export async function getOriginRoutes({
   return originRoutes;
 }
 
+function isDifferentLocaleMarkdownPageFile(file: File, locale: string) {
+  return (
+    file.type === "copy" &&
+    /^page\.[^.]*\.mdx?$/.test(file.name) &&
+    !file.name.includes(`.${locale}.`)
+  );
+}
+
 const APP_ROUTER_FILE_REGEXPS = {
   page: /^page\.(j|t)sx?$/,
   layout: /^layout\.(j|t)sx?$/,
@@ -69,7 +82,7 @@ const APP_ROUTER_FILE_REGEXPS = {
   "apple-icon": /^apple-icon\.(j|t)sx?$/,
   "opengraph-image": /^opengraph-image\.(j|t)sx?$/,
   "twitter-image": /^opengraph-image\.(j|t)sx?$/,
-  copy: /^(sitemap\.xml|icon\d*\.(ico|jpg|jpeg|png|svg)|apple-icon\d*\.(jpg|jpeg|png)|(opengraph|twitter)-image\.(jpg|jpeg|png|gif|alt\.txt))$/,
+  copy: /^(page\.[^.]*\.mdx?|sitemap\.xml|icon\d*\.(ico|jpg|jpeg|png|svg)|apple-icon\d*\.(jpg|jpeg|png)|(opengraph|twitter)-image\.(jpg|jpeg|png|gif|alt\.txt))$/,
 };
 
 type File = { name: string; type: FileType };

@@ -7,14 +7,15 @@ const DIST_DIR = "./node_modules/next-i18n-gen/dist";
 export function generateSchema(config: Config, originRoutes: OriginRoute[]) {
   const routes: Record<string, Record<string, string>> = {};
   originRoutes.forEach((originRoute) => {
-    if (originRoute.type !== "page") return;
+    if (!isPageOriginRoute(originRoute)) return;
     const routeName = getRouteName(originRoute.path);
     routes[routeName] ||= {};
-    config.locales.forEach((locale) => {
-      const localizedPath = originRoute.localizedPaths[locale]!;
-      const routePath = getRoutePath(localizedPath);
-      routes[routeName]![locale] = routePath;
-    });
+    Object.entries(originRoute.localizedPaths).forEach(
+      ([locale, localizedPath]) => {
+        const routePath = getRoutePath(localizedPath);
+        routes[routeName]![locale] = routePath;
+      }
+    );
   });
   const schema = {
     locales: config.locales,
@@ -40,6 +41,13 @@ export function generateSchema(config: Config, originRoutes: OriginRoute[]) {
   writeFileSync(typesFilePath, typesFile);
 }
 
+function isPageOriginRoute(originRoute: OriginRoute) {
+  return (
+    originRoute.type === "page" ||
+    (originRoute.type === "copy" && /page\.[^.]*\.mdx?$/.test(originRoute.path))
+  );
+}
+
 function getRouteName(originPath: string) {
   return [
     removePageSegment,
@@ -62,20 +70,20 @@ function getRoutePath(localizedPath: string) {
 }
 
 function removePageSegment(input: string) {
-  return input.replace(/\/page\.([tj])sx?$/, "");
+  return input.replace(/\/page(\.[^.]+)?\.(js|ts|md)x?$/, "");
 }
 
 function removeGroupSegments(input: string) {
-  return input.replace(/\/\([\w-]+\)/g, "");
+  return input.replace(/\/\([^)/]+\)/g, "");
 }
 
 function removeParallelSegments(input: string) {
-  return input.replace(/\/@\w+/g, "");
+  return input.replace(/\/@[^/]+/g, "");
 }
 
 function removeInterceptedSegments(input: string) {
   let result = input.replace(/\(\.\)/g, "");
-  const twoDotsRegExp = /[[\w-\]]+\/\(\.{2}\)/g;
+  const twoDotsRegExp = /[^/]+\/\(\.{2}\)/g;
   while (twoDotsRegExp.test(result)) {
     result = result.replace(twoDotsRegExp, "");
   }
