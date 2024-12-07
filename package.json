@@ -18,7 +18,7 @@
   },
   "scripts": {
     "build": "tsup",
-    "test": "vitest --no-watch"
+    "test": "tsc && vitest --no-watch"
   },
   "dependencies": {
     "@formatjs/intl-localematcher": "^0.5.8",

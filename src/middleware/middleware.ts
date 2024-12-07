@@ -56,7 +56,7 @@ function localeMatcher(request: NextRequest) {
 function getAlternativeLinks(locale: Locale, pathname: string) {
   let params: Partial<Record<string, string | string[]>>;
   const localizedPaths = Object.values(schema.routes).find((localizedPaths) => {
-    const match = pathMatcher(localizedPaths[locale])(pathname);
+    const match = pathMatcher(localizedPaths[locale]!)(pathname);
     if (!match) return false;
     params = match.params;
     return true;
@@ -64,6 +64,6 @@ function getAlternativeLinks(locale: Locale, pathname: string) {
   if (!localizedPaths) return undefined;
   return schema.locales.map((locale) => ({
     locale,
-    alternate: compile(localizedPaths[locale])(params),
+    alternate: compile(localizedPaths[locale]!)(params),
   }));
 }

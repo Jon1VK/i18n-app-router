@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
     "target": "ESNext",
+    "incremental": true,
+    "noUncheckedIndexedAccess": true,
     "strict": true,
     "allowJs": true,
     "noImplicitAny": true,
     "esModuleInterop": true,
-    "removeComments": true,
     "declaration": false,
     "noEmit": true,
-    "outDir": "dist",
     "skipLibCheck": true,
     "jsx": "react-jsx",
     "module": "ESNext",

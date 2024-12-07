@@ -11,9 +11,9 @@ export function generateSchema(config: Config, originRoutes: OriginRoute[]) {
     const routeName = getRouteName(originRoute.path);
     routes[routeName] ||= {};
     config.locales.forEach((locale) => {
-      const localizedPath = originRoute.localizedPaths[locale];
+      const localizedPath = originRoute.localizedPaths[locale]!;
       const routePath = getRoutePath(localizedPath);
-      routes[routeName][locale] = routePath;
+      routes[routeName]![locale] = routePath;
     });
   });
   const schema = {

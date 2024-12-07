@@ -20,7 +20,7 @@ function compilerFactory(config: Config) {
     const originPathDir = path.dirname(originPath);
     const compileTemplate = getTemplateCompiler(config, originRoute);
     config.locales.forEach((locale) => {
-      const localizedRoutePath = originRoute.localizedPaths[locale];
+      const localizedRoutePath = originRoute.localizedPaths[locale]!;
       const localizedPath = path.join(config.localizedDir, localizedRoutePath);
       const localizedPathDir = path.dirname(localizedPath);
       makeDirectory(localizedPathDir);
