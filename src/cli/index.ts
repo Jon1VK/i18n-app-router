@@ -19,7 +19,7 @@ program
   .option(
     "-c, --config [path]",
     "custom path to a configuration file",
-    "next-i18n-gen.config.ts"
+    "i18n.config.ts"
   )
   .action(generate);
 
