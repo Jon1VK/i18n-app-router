@@ -1,11 +1,11 @@
 {
-  "name": "next-i18n-gen",
+  "name": "next-globe-gen",
   "version": "0.1.0",
   "description": "Route Localizer for Next.js App Router",
   "author": "Joni Vainio-Kaila",
   "license": "MIT",
   "bin": {
-    "next-i18n-gen": "./dist/cli.js"
+    "next-globe-gen": "./dist/cli.js"
   },
   "exports": {
     ".": {

@@ -13,7 +13,7 @@ const baseTemplate = ""
   .concat(
     "/* eslint-disable */\n",
     "// @ts-nocheck\n\n",
-    'import { setLocale } from "next-i18n-gen";\n',
+    'import { setLocale } from "next-globe-gen";\n',
     `import Origin${PATTERNS.routeType} from "${PATTERNS.relativePath}";\n\n`,
     `export default function ${PATTERNS.routeType}(props) {\n`,
     `\tsetLocale("${PATTERNS.locale}");\n`,
@@ -25,7 +25,7 @@ const layoutTemplate = ""
   .concat(
     "/* eslint-disable */\n",
     "// @ts-nocheck\n\n",
-    'import { LocaleProvider, setLocale } from "next-i18n-gen";\n',
+    'import { LocaleProvider, setLocale } from "next-globe-gen";\n',
     `import Origin${PATTERNS.routeType} from "${PATTERNS.relativePath}";\n\n`,
     `export default function ${PATTERNS.routeType}(props) {\n`,
     `\tsetLocale("${PATTERNS.locale}");\n`,

@@ -10,7 +10,7 @@ type MockSchema = {
 export const schema = "{{schema}}" as unknown as MockSchema;
 
 if (typeof schema === "string") {
-  throw new CliError("Router schema for next-i18n-gen has not been generated");
+  throw new CliError("Router schema for next-globe-gen has not been generated");
 }
 
 type Schema = typeof schema;

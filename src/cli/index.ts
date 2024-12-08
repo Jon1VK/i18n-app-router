@@ -8,14 +8,14 @@ export type { UserConfig as Config } from "./types";
 process.on("SIGTERM", () => process.exit(0));
 process.on("SIGINT", () => process.exit(0));
 
-const program = new Command("next-i18n-gen");
+const program = new Command("NextGlobeGen");
 
-console.info(figlet.textSync("next-i18n-gen".toUpperCase(), "Small"));
+console.info(figlet.textSync("NextGlobeGen".toUpperCase(), "Small"));
 
 program
   .command("generate", { isDefault: true })
-  .summary("generate translated routes")
-  .description("generate translated routes")
+  .summary("generate localized routes")
+  .description("generate localizes routes")
   .option(
     "-c, --config [path]",
     "custom path to a configuration file",

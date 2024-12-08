@@ -19,6 +19,6 @@
       "~/*": ["src/*"]
     }
   },
-  "include": ["src", "next-i18n-gen.config.ts"],
+  "include": ["src"],
   "exclude": ["**/node_modules", "dist"]
 }

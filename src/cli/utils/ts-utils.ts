@@ -3,7 +3,7 @@ import path from "path";
 import { build } from "tsup";
 import { rmDirectory } from "./fs-utils";
 
-const OUT_DIR = "./node_modules/next-i18n-gen/dist/tmp";
+const OUT_DIR = "./node_modules/next-globe-gen/dist/tmp";
 
 export async function compile<T>(filePath: string) {
   const outputFileName = createHash("md5").update(filePath).digest("hex");

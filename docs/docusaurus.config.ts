@@ -3,16 +3,16 @@ import type { Config } from "@docusaurus/types";
 import { themes as prismThemes } from "prism-react-renderer";
 
 const config: Config = {
-  title: "next-i18n-gen",
+  title: "NextGlobeGen",
   tagline: "Route Localizer for Next.js App Router",
   favicon: "img/favicon.ico",
 
   // Deployment config
   url: "https://Jon1VK.github.io",
-  baseUrl: "/next-i18n-gen",
+  baseUrl: "/NextGlobeGen",
   trailingSlash: false,
   organizationName: "Jon1VK",
-  projectName: "next-i18n-gen",
+  projectName: "NextGlobeGen",
 
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
@@ -26,10 +26,7 @@ const config: Config = {
       {
         docs: {
           sidebarPath: "./sidebars.ts",
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/",
+          editUrl: "https://github.com/Jon1VK/next-globe-gen/tree/main/docs",
         },
         theme: { customCss: "./src/css/custom.css" },
       } satisfies Preset.Options,
@@ -37,13 +34,12 @@ const config: Config = {
   ],
 
   themeConfig: {
-    // Replace with your project's social card
-    image: "img/docusaurus-social-card.jpg",
     navbar: {
-      title: "My Site",
+      title: "NextGlobeGen",
       logo: {
-        alt: "My Site Logo",
+        alt: "NextGlobeGen Logo",
         src: "img/logo.svg",
+        srcDark: "img/logo.dark.svg",
       },
       items: [
         {

@@ -2,7 +2,7 @@ import { readFileSync, writeFileSync } from "fs";
 import path from "path";
 import type { Config, OriginRoute } from "~/cli/types";
 
-const DIST_DIR = "./node_modules/next-i18n-gen/dist";
+const DIST_DIR = "./node_modules/next-globe-gen/dist";
 
 export function generateSchema(config: Config, originRoutes: OriginRoute[]) {
   const routes: Record<string, Record<string, string>> = {};
