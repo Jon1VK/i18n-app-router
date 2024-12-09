@@ -32,7 +32,7 @@ const Content = () => {
       <div className="mt-10 flex flex-wrap items-center gap-6">
         <a
           href="./docs/intro"
-          className="rounded-md bg-sky-600 px-3.5 py-2.5 font-semibold text-white shadow-sm hover:text-white"
+          className="rounded-md bg-sky-700/80 hover:bg-sky-700/90 px-3.5 py-2.5 font-semibold text-white shadow-sm hover:text-white"
         >
           Get Started
         </a>
