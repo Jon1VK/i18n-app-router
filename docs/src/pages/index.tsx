@@ -5,7 +5,7 @@ import type { CSSProperties } from "react";
 export default function Home() {
   return (
     <Layout>
-      <main className="relative isolate bg-gradient-to-b from-sky-500/90 dark:to-sky-950 overflow-hidden">
+      <main className="relative isolate bg-gradient-to-b from-sky-500/90 dark:to-sky-950 overflow-hidden flex-1">
         <div
           className="absolute inset-y-0 right-1/2 -z-10 w-[200%] skew-x-[-30deg] bg-white dark:bg-gray-900 shadow-xl shadow-sky-600/50 -mr-10 md:-mr-20 lg:-mr-36"
           aria-hidden="true"
