@@ -5,7 +5,7 @@ import { themes as prismThemes } from "prism-react-renderer";
 const config: Config = {
   title: "NextGlobeGen",
   tagline: "Route Localizer for Next.js App Router",
-  favicon: "img/favicon.ico",
+  favicon: "favicon.ico",
 
   // Deployment config
   url: "https://Jon1VK.github.io",
@@ -26,7 +26,7 @@ const config: Config = {
       {
         docs: {
           sidebarPath: "./sidebars.ts",
-          editUrl: "https://github.com/Jon1VK/next-globe-gen/tree/main/docs",
+          editUrl: "https://github.com/Jon1VK/NextGlobeGen/tree/main/docs",
         },
         theme: { customCss: "./src/css/custom.css" },
       } satisfies Preset.Options,
@@ -34,6 +34,8 @@ const config: Config = {
   ],
 
   themeConfig: {
+    prism: { theme: prismThemes.nightOwl },
+    colorMode: { defaultMode: "dark" },
     navbar: {
       title: "NextGlobeGen",
       logo: {
@@ -44,61 +46,30 @@ const config: Config = {
       items: [
         {
           type: "docSidebar",
-          sidebarId: "tutorialSidebar",
+          sidebarId: "sidebar",
           position: "left",
-          label: "Tutorial",
+          label: "Docs",
         },
         {
-          href: "https://github.com/facebook/docusaurus",
+          href: "https://github.com/Jon1VK/NextGlobeGen",
           label: "GitHub",
           position: "right",
         },
       ],
     },
     footer: {
-      style: "dark",
+      style: "light",
+      logo: {
+        alt: "NextGlobeGen Logo",
+        src: "img/logo.svg",
+        srcDark: "img/logo.dark.svg",
+        height: 32,
+        href: "/",
+      },
       links: [
-        {
-          title: "Docs",
-          items: [
-            {
-              label: "Tutorial",
-              to: "/docs/intro",
-            },
-          ],
-        },
-        {
-          title: "Community",
-          items: [
-            {
-              label: "Stack Overflow",
-              href: "https://stackoverflow.com/questions/tagged/docusaurus",
-            },
-            {
-              label: "Discord",
-              href: "https://discordapp.com/invite/docusaurus",
-            },
-            {
-              label: "X",
-              href: "https://x.com/docusaurus",
-            },
-          ],
-        },
-        {
-          title: "More",
-          items: [
-            {
-              label: "GitHub",
-              href: "https://github.com/facebook/docusaurus",
-            },
-          ],
-        },
+        { label: "Docs", to: "/docs/intro" },
+        { label: "GitHub", href: "https://github.com/Jon1VK/NextGlobeGen" },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
-    },
-    prism: {
-      theme: prismThemes.github,
-      darkTheme: prismThemes.dracula,
     },
   } satisfies Preset.ThemeConfig,
   plugins: [

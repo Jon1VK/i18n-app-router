@@ -6,8 +6,6 @@ module.exports = {
     preflight: false,
     container: false,
   },
-  theme: {
-    extend: {},
-  },
+  theme: {},
   plugins: [],
 };

@@ -24,3 +24,22 @@
   --ifm-color-primary-lightest: #95ccf8;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
+
+*:focus-visible {
+  outline: 2px solid var(--ifm-color-primary-darkest);
+  outline-offset: 2px;
+}
+
+.navbar,
+.footer {
+  background-color: #f9fafb;
+}
+
+[data-theme="dark"] .navbar,
+[data-theme="dark"] .footer {
+  background-color: #1f2937;
+}
+
+[data-theme="dark"] .main-wrapper {
+  background-color: #111827;
+}
