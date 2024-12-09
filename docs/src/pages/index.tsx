@@ -29,16 +29,16 @@ const Content = () => {
         Localize your Next.js App Router routes and content to serve your
         application for all the users around the world.
       </p>
-      <div className="mt-10 flex flex-wrap items-center gap-6">
+      <div className="mt-10 flex font-semibold flex-wrap items-center gap-6">
         <a
           href="./docs/intro"
-          className="rounded-md bg-sky-700/80 hover:bg-sky-700/90 px-3.5 py-2.5 font-semibold text-white shadow-sm hover:text-white"
+          className="rounded-xl bg-sky-700/70 hover:bg-sky-700/90 px-6 py-3 text-white hover:text-white"
         >
-          Get Started
+          Get Started <span aria-hidden="true">→</span>
         </a>
         <a
           href="https://github.com/Jon1VK/NextGlobeGen"
-          className="rounded-md font-semibold text-gray-900 dark:text-gray-200 px-3.5 py-2.5 whitespace-nowrap"
+          className="rounded-xl bg-sky-300/10 hover:bg-sky-300/20 px-6 py-3 text-gray-900 dark:text-gray-200 hover:text-white whitespace-nowrap"
         >
           View on GitHub <span aria-hidden="true">→</span>
         </a>
