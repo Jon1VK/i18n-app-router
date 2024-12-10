@@ -10,7 +10,7 @@ export default function Home() {
           className="absolute inset-y-0 right-1/2 -z-10 w-[200%] skew-x-[-30deg] bg-white dark:bg-gray-900 shadow-xl shadow-sky-600/50 -mr-10 md:-mr-20 lg:-mr-36"
           aria-hidden="true"
         />
-        <div className="mx-auto max-w-7xl space-y-24 py-24 px-8 lg:grid lg:grid-cols-2 lg:items-center lg:gap-x-8">
+        <div className="mx-auto max-w-7xl space-y-24 py-24 px-8 xl:grid xl:grid-cols-[minmax(0,4fr)_minmax(0,5fr)] xl:items-center xl:gap-x-8">
           <Content />
           <CodeExample />
         </div>
@@ -67,7 +67,7 @@ function Layout(props) {
 
 function CodeExample() {
   return (
-    <div className="-mx-8 pl-6 pt-8 md:pt-12 md:pl-10 md:mx-auto md:max-w-3xl md:rounded-3xl bg-gradient-to-b from-sky-500/90 to-white dark:to-sky-950 [clip-path:inset(0)] md:[clip-path:inset(0_round_theme(borderRadius.3xl))]">
+    <div className="-mx-8 pl-6 pt-8 md:pt-12 md:pl-10 md:mx-auto md:max-w-3xl xl:md:mx-0 xl:max-w-none bg-gradient-to-b from-sky-500/90 to-white dark:to-sky-950 [clip-path:inset(0)] md:[clip-path:inset(0_round_theme(borderRadius.3xl))]">
       <div
         className="absolute inset-0 left-1/2 -z-10 ml-10 w-[200%] skew-x-[-30deg] bg-gradient-to-t from-sky-500/90 to-white dark:to-sky-950 md:ml-20 lg:ml-36"
         aria-hidden="true"
