@@ -38,7 +38,7 @@ const Content = () => {
         </a>
         <a
           href="https://github.com/Jon1VK/NextGlobeGen"
-          className="rounded-xl bg-sky-300/10 hover:bg-sky-300/20 px-6 py-3 text-gray-900 dark:text-gray-200 hover:text-white whitespace-nowrap"
+          className="rounded-xl bg-sky-300/10 hover:bg-sky-300/20 px-6 py-3 text-gray-900 hover:text-gray-900 dark:text-white dark:hover:text-white whitespace-nowrap"
         >
           View on GitHub <span aria-hidden="true">→</span>
         </a>
