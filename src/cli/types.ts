@@ -1,10 +1,10 @@
 import type { RouteType } from "./commands/generate/getOriginRoutes";
 
-export type Config = {
+export type Config<L extends string[] = string[]> = {
   originDir: string;
   localizedDir: string;
-  locales: string[];
-  defaultLocale: string;
+  locales: L;
+  defaultLocale: L[number];
   prefixDefaultLocale: boolean;
 };
 

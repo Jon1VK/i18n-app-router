@@ -3,6 +3,7 @@ import { useHrefFactory } from "../shared/useHrefFactory";
 import { useLocale } from "./LocaleProvider";
 import { notSupported } from "./notSupported";
 
+export type { UserConfig as Config } from "../../cli/types";
 export type * from "../shared/schema";
 export * from "./LocaleProvider";
 export * from "./useRouter";
