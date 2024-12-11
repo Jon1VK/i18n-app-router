@@ -103,13 +103,17 @@ function getAppRouterFiles(directory: string) {
 }
 
 const I18N_FILE_NAMES = ["i18n.js", "i18n.ts"];
-type I18N = { segmentTranslations: Record<string, string> };
+type I18N = {
+  segmentTranslations?: Record<string, string>;
+  generateSegmentTranslations?: () => Promise<Record<string, string>>;
+};
 
 async function getRouteTranslations(directory: string) {
   for (const file of I18N_FILE_NAMES) {
     const filePath = path.join(directory, file);
     if (!isFile(filePath)) continue;
     const i18n = await compile<I18N>(filePath);
-    return i18n.segmentTranslations;
+    const generator = i18n.generateSegmentTranslations;
+    return generator ? await generator() : i18n.segmentTranslations;
   }
 }
