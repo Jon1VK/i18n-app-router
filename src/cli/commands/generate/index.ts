@@ -5,8 +5,8 @@ import { generateSchema } from "./generateSchema";
 import { getOriginRoutes } from "./getOriginRoutes";
 
 export const DEFAULT_CONFIG: Config = {
-  originDir: "./src/_app",
-  localizedDir: "./src/app/(i18n)",
+  originDir: "./_app",
+  localizedDir: "./app/(i18n)",
   locales: [],
   defaultLocale: "",
   prefixDefaultLocale: true,
