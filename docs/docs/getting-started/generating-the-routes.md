@@ -70,6 +70,7 @@ Then you can either export a variable named `segmentTranslations` or an asynchro
 ```ts
 // ./_app/about/i18n.ts
 
+// Either export the segment translations as a variable
 export const segmentTranslations = {
   // Directory name is used by default, if translation is omitted for some locale
   // en: "about",
@@ -77,12 +78,12 @@ export const segmentTranslations = {
 };
 
 // Or use an async function to fetch the segment translations asynchronously
-// export async function generateSegmentTranslations() {
-//   return {
-//     // en: "about",
-//     fi: "tietoa",
-//   };
-// }
+export async function generateSegmentTranslations() {
+  return {
+    // en: "about",
+    fi: "tietoa",
+  };
+}
 ```
 
 To generate the translated routes, run the generation command `npm next-globe-gen` again.
