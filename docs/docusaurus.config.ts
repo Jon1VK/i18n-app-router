@@ -67,7 +67,7 @@ const config: Config = {
         href: "/",
       },
       links: [
-        { label: "Docs", to: "/docs/intro" },
+        { label: "Docs", to: "/docs/introduction" },
         { label: "GitHub", href: "https://github.com/Jon1VK/NextGlobeGen" },
       ],
     },
