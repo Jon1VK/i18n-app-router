@@ -1,10 +1,15 @@
 import { readFileSync, writeFileSync } from "fs";
 import path from "path";
 import type { Config, OriginRoute } from "~/cli/types";
+import type { Messages } from "./getMessages";
 
 const DIST_DIR = "./node_modules/next-globe-gen/dist";
 
-export function generateSchema(config: Config, originRoutes: OriginRoute[]) {
+export function generateDistFiles(
+  config: Config,
+  originRoutes: OriginRoute[],
+  messages: Messages
+) {
   const routes: Record<string, Record<string, string>> = {};
   originRoutes.forEach((originRoute) => {
     if (!isPageOriginRoute(originRoute)) return;
@@ -30,9 +35,14 @@ export function generateSchema(config: Config, originRoutes: OriginRoute[]) {
   const serverTemplate = readFileSync(serverTemplatePath).toString();
   const typesTemplate = readFileSync(typesTemplatePath).toString();
   const JSONSchema = JSON.stringify(schema);
+  const JSONMessages = JSON.stringify(messages);
   const clientFile = clientTemplate.replace('"{{schema}}"', JSONSchema);
-  const serverFile = serverTemplate.replace('"{{schema}}"', JSONSchema);
-  const typesFile = typesTemplate.replace("MockSchema;", `${JSONSchema};`);
+  const serverFile = serverTemplate
+    .replace('"{{schema}}"', JSONSchema)
+    .replace('"{{messages}}"', JSONMessages);
+  const typesFile = typesTemplate
+    .replace("MockSchema;", `${JSONSchema};`)
+    .replace("MockMessages;", `${JSONMessages};`);
   const clientFilePath = path.join(DIST_DIR, "index.client.js");
   const serverFilePath = path.join(DIST_DIR, "index.server.js");
   const typesFilePath = path.join(DIST_DIR, "index.client.d.ts");

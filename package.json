@@ -22,6 +22,7 @@
     "@formatjs/intl-localematcher": "^0.5.8",
     "commander": "^12.1.0",
     "figlet": "^1.8.0",
+    "intl-messageformat": "^10.7.10",
     "negotiator": "^1.0.0",
     "path-to-regexp": "^8.2.0",
     "tsup": "^8.3.5"

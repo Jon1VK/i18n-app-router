@@ -1,5 +1,4 @@
 import { cache } from "react";
-import { RouterError } from "../shared/errors";
 import type { Locale } from "../shared/schema";
 
 type LocaleStore = { locale: Locale };
@@ -15,7 +14,5 @@ export function useLocale() {
 }
 
 export function setLocale(locale: Locale) {
-  const localeStore = getLocaleStore();
-  if (localeStore.locale === "") return (localeStore.locale = locale);
-  throw new RouterError("setLocale should not be called by the user");
+  getLocaleStore().locale = locale;
 }

@@ -1,7 +1,8 @@
 import type { Config, UserConfig } from "~/cli/types";
 import { compile, removeCompiledFiles } from "~/cli/utils/ts-utils";
+import { generateDistFiles } from "./generateDistFiles";
 import { generateLocalizedRoutes } from "./generateLocalizedRoutes";
-import { generateSchema } from "./generateSchema";
+import { getMessages } from "./getMessages";
 import { getOriginRoutes } from "./getOriginRoutes";
 
 export const DEFAULT_CONFIG: Config = {
@@ -10,6 +11,8 @@ export const DEFAULT_CONFIG: Config = {
   locales: [],
   defaultLocale: "",
   prefixDefaultLocale: true,
+  getMessages: async (locale) =>
+    (await import(`${process.cwd()}/messages/${locale}.json`)).default,
 };
 
 export async function generate(args: { config: string }) {
@@ -18,8 +21,9 @@ export async function generate(args: { config: string }) {
     const userConfig = await compile<{ default: UserConfig }>(args.config);
     const config = { ...DEFAULT_CONFIG, ...userConfig.default };
     const originRoutes = await getOriginRoutes({ config });
+    const messages = await getMessages(config);
     generateLocalizedRoutes(config, originRoutes);
-    generateSchema(config, originRoutes);
+    generateDistFiles(config, originRoutes, messages);
     const endTime = process.hrtime(startTime);
     const timeDiffInMs = (endTime[0] * 1000 + endTime[1] / 1000000).toFixed(2);
     console.info(

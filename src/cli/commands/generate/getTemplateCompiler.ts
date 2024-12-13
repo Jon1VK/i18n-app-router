@@ -21,18 +21,18 @@ const baseTemplate = ""
   )
   .trim();
 
-const layoutTemplate = ""
+const rootLayoutTemplate = ""
   .concat(
     "/* eslint-disable */\n",
     "// @ts-nocheck\n\n",
-    'import { LocaleProvider, setLocale } from "next-globe-gen";\n',
+    'import { IntlProvider, messages, setLocale } from "next-globe-gen";\n',
     `import Origin${PATTERNS.routeType} from "${PATTERNS.relativePath}";\n\n`,
-    `export default function ${PATTERNS.routeType}(props) {\n`,
+    `export default async function ${PATTERNS.routeType}(props) {\n`,
     `\tsetLocale("${PATTERNS.locale}");\n`,
     "\treturn (\n",
-    `\t\t<LocaleProvider locale="${PATTERNS.locale}">\n`,
+    `\t\t<IntlProvider locale="${PATTERNS.locale}" messages={messages}>\n`,
     `\t\t\t<Origin${PATTERNS.routeType} {...props} />\n`,
-    "\t\t</LocaleProvider>\n",
+    "\t\t</IntlProvider>\n",
     "\t);\n}"
   )
   .trim();
@@ -49,7 +49,7 @@ const errorTemplate = ""
   .trim();
 
 const routeTypeTemplates: Record<Exclude<RouteType, "copy">, string> = {
-  layout: layoutTemplate,
+  layout: baseTemplate,
   template: baseTemplate,
   page: baseTemplate,
   default: baseTemplate,
@@ -64,12 +64,13 @@ const routeTypeTemplates: Record<Exclude<RouteType, "copy">, string> = {
 };
 
 export function getTemplateCompiler(config: Config, originRoute: OriginRoute) {
-  if (originRoute.type === "copy") {
-    return () => "";
-  }
+  if (originRoute.type === "copy") return () => "";
   const originPath = path.join(config.originDir, originRoute.path);
   const contents = readFileSync(originPath).toString();
-  let template = routeTypeTemplates[originRoute.type];
+  const originIsRootLayout = isRootLayout(originRoute, contents);
+  let template = originIsRootLayout
+    ? rootLayoutTemplate
+    : routeTypeTemplates[originRoute.type];
   template = withReExport(template, contents, "metadata");
   template = withReExport(template, contents, "viewport");
   template = withLocaleInjectedFn(template, contents, "generateMetadata");
@@ -84,6 +85,10 @@ export function getTemplateCompiler(config: Config, originRoute: OriginRoute) {
       template
     );
   };
+}
+
+function isRootLayout(originRoute: OriginRoute, contents: string) {
+  return originRoute.type === "layout" && /<html/.test(contents);
 }
 
 function withoutProps(template: string) {
