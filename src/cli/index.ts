@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { Command } from "commander";
 import figlet from "figlet";
 import { generate } from "./commands/generate";
