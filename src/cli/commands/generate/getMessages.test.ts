@@ -1,9 +1,8 @@
-import path from "path";
 import { describe, expect, test } from "vitest";
 import { DEFAULT_CONFIG } from ".";
 import { getMessages } from "./getMessages";
 
-const exampleDir = path.join(process.cwd(), "./src/__mocks__/messages");
+const exampleDir = "./src/__mocks__/messages";
 
 describe("getMessages()", () => {
   test("works correctly", async () => {

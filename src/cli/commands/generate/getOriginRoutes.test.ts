@@ -1,10 +1,9 @@
-import path from "path";
 import { describe, expect, test } from "vitest";
 import type { OriginRoute } from "~/cli/types";
 import { DEFAULT_CONFIG } from ".";
 import { getOriginRoutes } from "./getOriginRoutes";
 
-const exampleDir = path.join(process.cwd(), "./src/__mocks__/_app");
+const exampleDir = "./src/__mocks__/_app";
 
 export const getExpectedOriginRoutes = (
   prefixDefaultLocale: boolean

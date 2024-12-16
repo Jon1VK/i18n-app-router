@@ -58,5 +58,5 @@ export function useRouter() {
     push,
     replace,
     prefetch,
-  } satisfies Record<keyof AppRouterInstance, Function>;
+  } satisfies Record<keyof AppRouterInstance, () => void>;
 }

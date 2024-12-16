@@ -5,7 +5,8 @@ import { compile, match as pathMatcher } from "path-to-regexp";
 import { schema, type Locale } from "../router/shared/schema";
 
 export function middleware(request: NextRequest) {
-  let [locale, pathname] = getLocaleAndPathname(request.nextUrl.pathname);
+  const [locale_, pathname] = getLocaleAndPathname(request.nextUrl.pathname);
+  let locale = locale_;
 
   // Redirect to nonprefixed URL if default locale is not wanted
   if (!schema.prefixDefaultLocale && locale === schema.defaultLocale) {

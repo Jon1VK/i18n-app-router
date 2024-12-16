@@ -9,6 +9,7 @@ export async function compile<T>(filePath: string) {
   const outputFileName = createHash("md5").update(filePath).digest("hex");
   await build({
     config: false,
+    target: "node18",
     outDir: OUT_DIR,
     entryPoints: { [`${outputFileName}`]: filePath },
     silent: true,

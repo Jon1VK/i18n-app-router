@@ -21,7 +21,7 @@ export type Route = keyof Schema["routes"];
 /**
  * Utility type for extracting all static routes
  */
-type ExtractStaticRoutes<T extends Route> = T extends `${any}[${any}`
+type ExtractStaticRoutes<T extends Route> = T extends `${string}[${string}`
   ? never
   : T;
 
@@ -40,7 +40,7 @@ export type DynamicRoute = Exclude<Route, StaticRoute>;
  */
 type ExtractRouteParams<T extends Route> = T extends `${infer R}[[${infer P}]]`
   ? ExtractRouteParams<R> | P
-  : T extends `${any}[${infer P}]${infer R}`
+  : T extends `${string}[${infer P}]${infer R}`
     ? P | ExtractRouteParams<R>
     : never;
 
@@ -50,5 +50,5 @@ type ExtractRouteParams<T extends Route> = T extends `${infer R}[[${infer P}]]`
 export type RouteParams<T extends Route> = {
   [K in ExtractRouteParams<T> as K extends `...${infer R}`
     ? R
-    : K]: K extends `...${any}` ? string[] : string;
+    : K]: K extends `...${string}` ? string[] : string;
 };

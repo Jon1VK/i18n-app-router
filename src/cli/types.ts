@@ -6,7 +6,7 @@ export type Config<L extends string[] = string[]> = {
   locales: L;
   defaultLocale: L[number];
   prefixDefaultLocale: boolean;
-  getMessages: (locale: L[number]) => Promise<object>;
+  getMessages: (locale: L[number]) => Promise<object> | object;
 };
 
 type RequiredUserConfigKeys = "locales" | "defaultLocale";
