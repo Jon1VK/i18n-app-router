@@ -25,7 +25,8 @@ const rootLayoutTemplate = ""
   .concat(
     "/* eslint-disable */\n",
     "// @ts-nocheck\n\n",
-    'import { IntlProvider, messages, setLocale } from "next-globe-gen";\n',
+    'import { IntlProvider } from "next-globe-gen/shared";\n',
+    'import { messages, setLocale } from "next-globe-gen";\n',
     `import Origin${PATTERNS.routeType} from "${PATTERNS.relativePath}";\n\n`,
     `export default async function ${PATTERNS.routeType}(props) {\n`,
     `\tsetLocale("${PATTERNS.locale}");\n`,

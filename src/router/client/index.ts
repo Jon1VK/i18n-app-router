@@ -10,7 +10,6 @@ import { useTranslationsFactory } from "../shared/useTranslationsFactory";
 import { notSupported } from "./notSupported";
 
 export type { UserConfig as Config } from "../../cli/types";
-export { IntlProvider } from "../shared/IntlProvider";
 export * from "../shared/schema";
 export * from "./useRouter";
 

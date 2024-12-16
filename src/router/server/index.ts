@@ -4,7 +4,6 @@ import { useHrefFactory } from "../shared/useHrefFactory";
 import { useTranslationsFactory } from "../shared/useTranslationsFactory";
 import { useLocale } from "./LocaleStore";
 
-export { IntlProvider } from "../shared/IntlProvider";
 export * from "../shared/schema";
 export * from "./LocaleStore";
 export * from "./redirect";
