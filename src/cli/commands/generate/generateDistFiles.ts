@@ -30,9 +30,11 @@ export function generateDistFiles(
   };
   const clientTemplatePath = path.join(DIST_DIR, "index.client.template.js");
   const serverTemplatePath = path.join(DIST_DIR, "index.server.template.js");
+  const middlewareTemplatePath = path.join(DIST_DIR, "middleware.template.js");
   const typesTemplatePath = path.join(DIST_DIR, "index.client.template.d.ts");
   const clientTemplate = readFileSync(clientTemplatePath).toString();
   const serverTemplate = readFileSync(serverTemplatePath).toString();
+  const middlewareTemplate = readFileSync(middlewareTemplatePath).toString();
   const typesTemplate = readFileSync(typesTemplatePath).toString();
   const JSONSchema = JSON.stringify(schema);
   const JSONMessages = JSON.stringify(messages);
@@ -40,14 +42,17 @@ export function generateDistFiles(
   const serverFile = serverTemplate
     .replace('"{{schema}}"', JSONSchema)
     .replace('"{{messages}}"', JSONMessages);
+  const middlewareFile = middlewareTemplate.replace(`"{{schema}}"`, JSONSchema);
   const typesFile = typesTemplate
     .replace("MockSchema;", `${JSONSchema};`)
     .replace("MockMessages;", `${JSONMessages};`);
   const clientFilePath = path.join(DIST_DIR, "index.client.js");
   const serverFilePath = path.join(DIST_DIR, "index.server.js");
+  const middlewareFilePath = path.join(DIST_DIR, "middleware.js");
   const typesFilePath = path.join(DIST_DIR, "index.client.d.ts");
   writeFileSync(clientFilePath, clientFile);
   writeFileSync(serverFilePath, serverFile);
+  writeFileSync(middlewareFilePath, middlewareFile);
   writeFileSync(typesFilePath, typesFile);
 }
 

@@ -6,6 +6,7 @@ export default defineConfig([
     minify: true,
     entry: {
       cli: "src/cli/index.ts",
+      "middleware.template": "src/middleware/index.ts",
       middleware: "src/middleware/index.ts",
       "index.server.template": "src/router/server/index.ts",
       "index.server": "src/router/server/index.ts",
