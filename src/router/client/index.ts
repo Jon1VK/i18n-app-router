@@ -1,23 +1,19 @@
-import { use } from "react";
 import type {
   permanentRedirect as $permanentRedirect,
   redirect as $redirect,
 } from "../server";
-import { IntlContext } from "../shared/IntlProvider";
 import { LinkFactory } from "../shared/LinkFactory";
-import type { Messages } from "../shared/messages";
-import type { Locale } from "../shared/schema";
 import { useHrefFactory } from "../shared/useHrefFactory";
 import { useTranslationsFactory } from "../shared/useTranslationsFactory";
+import { useLocale, useMessages } from "./IntlProvider";
 import { notSupported } from "./notSupported";
 
 export type { UserConfig as Config } from "../../cli/types";
 export type * from "../shared/messages";
 export * from "../shared/schema";
+export * from "./IntlProvider";
 export * from "./useRouter";
 
-export const useLocale = (): Locale => use(IntlContext).locale;
-export const useMessages = (): Messages => use(IntlContext).messages;
 export const useHref = useHrefFactory(useLocale);
 export const Link = LinkFactory(useHref);
 export const useTranslations = useTranslationsFactory(useLocale, useMessages);

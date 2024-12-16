@@ -24,7 +24,6 @@ export default defineConfig([
       options.banner = { js: '"use client"' };
     },
     entry: {
-      shared: "src/router/shared/index.ts",
       "index.client.template": "src/router/client/index.ts",
       "index.client": "src/router/client/index.ts",
     },

@@ -1,10 +1,10 @@
 "use client";
 
-import { createContext, type ReactNode } from "react";
-import type { Messages } from "./messages";
-import type { Locale } from "./schema";
+import { createContext, use, type ReactNode } from "react";
+import type { Messages } from "../shared/messages";
+import type { Locale } from "../shared/schema";
 
-export const IntlContext = createContext<{
+const IntlContext = createContext<{
   locale: Locale;
   messages: Messages;
 }>({
@@ -29,3 +29,6 @@ export function IntlProvider({
     </IntlContext.Provider>
   );
 }
+
+export const useLocale = (): Locale => use(IntlContext).locale;
+export const useMessages = (): Messages => use(IntlContext).messages;
