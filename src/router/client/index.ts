@@ -5,16 +5,19 @@ import type {
 } from "../server";
 import { IntlContext } from "../shared/IntlProvider";
 import { LinkFactory } from "../shared/LinkFactory";
+import type { Messages } from "../shared/messages";
+import type { Locale } from "../shared/schema";
 import { useHrefFactory } from "../shared/useHrefFactory";
 import { useTranslationsFactory } from "../shared/useTranslationsFactory";
 import { notSupported } from "./notSupported";
 
 export type { UserConfig as Config } from "../../cli/types";
+export type * from "../shared/messages";
 export * from "../shared/schema";
 export * from "./useRouter";
 
-export const useLocale = () => use(IntlContext).locale;
-export const useMessages = () => use(IntlContext).messages;
+export const useLocale = (): Locale => use(IntlContext).locale;
+export const useMessages = (): Messages => use(IntlContext).messages;
 export const useHref = useHrefFactory(useLocale);
 export const Link = LinkFactory(useHref);
 export const useTranslations = useTranslationsFactory(useLocale, useMessages);
