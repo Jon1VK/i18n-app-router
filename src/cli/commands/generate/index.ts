@@ -15,7 +15,7 @@ export const DEFAULT_CONFIG: Config = {
   defaultLocale: "",
   prefixDefaultLocale: true,
   getMessages(locale) {
-    const filePath = path.join(process.cwd(), `./src/messages/${locale}.json`);
+    const filePath = path.join(process.cwd(), `./messages/${locale}.json`);
     return require(filePath);
   },
 };
