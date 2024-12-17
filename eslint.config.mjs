@@ -11,6 +11,13 @@ export default tseslint.config(
     linterOptions: { reportUnusedDisableDirectives: true },
     rules: {
       "@typescript-eslint/no-require-imports": "off",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          argsIgnorePattern: "^_",
+          caughtErrorsIgnorePattern: "^_",
+        },
+      ],
     },
   }
 );

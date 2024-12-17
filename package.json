@@ -1,6 +1,6 @@
 {
   "name": "next-globe-gen",
-  "version": "1.0.0-rc14",
+  "version": "1.0.0-rc15",
   "description": "Internationalization (i18n) library for Next.js App Router",
   "author": "Joni Vainio-Kaila",
   "license": "MIT",
@@ -20,7 +20,8 @@
       "default": "./dist/index.client.js"
     },
     "./client": "./dist/index.client.js",
-    "./middleware": "./dist/middleware.js"
+    "./middleware": "./dist/middleware.js",
+    "./plugin": "./dist/plugin.js"
   },
   "scripts": {
     "build": "tsup",
