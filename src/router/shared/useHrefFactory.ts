@@ -28,9 +28,10 @@ export function useHrefFactory(useLocale: () => Locale) {
     if (!localizedPaths) throw new Error(`Invalid route "${route}"`);
     const path = localizedPaths[locale ?? useLocale()];
     if (!path) throw new Error(`Invalid locale "${locale}"`);
+    const compliedPath = compile(path)(params);
+    if (!query) return compliedPath;
     const searchParams = new URLSearchParams(query);
-    const compiler = compile(path);
-    return `${compiler(params)}?${searchParams}`;
+    return `${compliedPath}?${searchParams}`;
   };
 }
 
