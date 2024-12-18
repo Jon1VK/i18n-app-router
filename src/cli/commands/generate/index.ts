@@ -1,6 +1,8 @@
+import { Command } from "commander";
+import { watch } from "fs";
 import path from "path";
 import type { Config, UserConfig } from "~/cli/types";
-import { isDirectory, isFile } from "~/cli/utils/fs-utils";
+import { isDirectory, isFile, rmDirectory } from "~/cli/utils/fs-utils";
 import { compile, removeCompiledFiles } from "~/cli/utils/ts-utils";
 import { configNotFoundError, originDirNotFoundError } from "./errors";
 import { generateDistFiles } from "./generateDistFiles";
@@ -20,16 +22,38 @@ export const DEFAULT_CONFIG: Config = {
   },
 };
 
-export async function generate(args: { config: string }) {
+export const generateCommand = new Command("generate")
+  .summary("generate localized routes")
+  .description("generate localizes routes")
+  .option(
+    "-c, --config [path]",
+    "custom path to a configuration file",
+    "i18n.config.ts"
+  )
+  .option("-w, --watch", "enables watch mode")
+  .action(generateAction);
+
+async function generateAction(args: { config: string; watch: boolean }) {
+  if (!isFile(args.config)) throw configNotFoundError(args.config);
+  const userConfig = await compile<{ default: UserConfig }>(args.config);
+  const config: Config = { ...DEFAULT_CONFIG, ...userConfig.default };
+  if (!isDirectory(config.originDir)) throw originDirNotFoundError(config);
+  rmDirectory(config.localizedDir);
+  await generate(config);
+  if (args.watch) {
+    watch(config.originDir, { recursive: true }, (_, fileName) => {
+      if (!fileName) return;
+      generate(config, `/${fileName}`);
+    });
+  }
+}
+
+async function generate(config: Config, updatedOriginPath?: string) {
   try {
     const startTime = process.hrtime();
-    if (!isFile(args.config)) throw configNotFoundError(args.config);
-    const userConfig = await compile<{ default: UserConfig }>(args.config);
-    const config = { ...DEFAULT_CONFIG, ...userConfig.default };
-    if (!isDirectory(config.originDir)) throw originDirNotFoundError(config);
     const originRoutes = await getOriginRoutes({ config });
     const messages = await getMessages(config);
-    generateLocalizedRoutes(config, originRoutes);
+    generateLocalizedRoutes(config, originRoutes, updatedOriginPath);
     generateDistFiles(config, originRoutes, messages);
     const endTime = process.hrtime(startTime);
     const timeDiffInMs = (endTime[0] * 1000 + endTime[1] / 1000000).toFixed(2);
