@@ -1,13 +1,15 @@
 import { Command } from "commander";
-import { watch } from "fs";
-import path from "path";
+import { readFileSync, watch } from "fs";
 import type { Config, UserConfig } from "~/cli/types";
 import { isDirectory, isFile, rmDirectory } from "~/cli/utils/fs-utils";
 import { compile, removeCompiledFiles } from "~/cli/utils/ts-utils";
 import { configNotFoundError, originDirNotFoundError } from "./errors";
-import { generateDistFiles } from "./generateDistFiles";
+import {
+  generateDeclarationFile,
+  generateMessagesFile,
+  generateSchemaFile,
+} from "./generateDistFiles";
 import { generateLocalizedRoutes } from "./generateLocalizedRoutes";
-import { getMessages } from "./getMessages";
 import { getOriginRoutes } from "./getOriginRoutes";
 
 export const DEFAULT_CONFIG: Config = {
@@ -16,9 +18,10 @@ export const DEFAULT_CONFIG: Config = {
   locales: [],
   defaultLocale: "",
   prefixDefaultLocale: true,
-  getMessages(locale) {
-    const filePath = path.join(process.cwd(), `./messages/${locale}.json`);
-    return require(filePath);
+  messagesWatchDir: "./messages",
+  async getMessages(locale) {
+    const content = readFileSync(`./messages/${locale}.json`).toString();
+    return JSON.parse(content);
   },
 };
 
@@ -39,26 +42,46 @@ async function generateAction(args: { config: string; watch: boolean }) {
   const config: Config = { ...DEFAULT_CONFIG, ...userConfig.default };
   if (!isDirectory(config.originDir)) throw originDirNotFoundError(config);
   rmDirectory(config.localizedDir);
-  await generate(config);
+  generateDeclarationFile();
+  await generateRoutes(config);
+  await generateMessages(config);
   if (args.watch) {
     watch(config.originDir, { recursive: true }, (_, fileName) => {
       if (!fileName) return;
-      generate(config, `/${fileName}`);
+      generateRoutes(config, `/${fileName}`);
+    });
+    watch(config.messagesWatchDir, { recursive: true }, () => {
+      generateMessages(config);
     });
   }
 }
 
-async function generate(config: Config, updatedOriginPath?: string) {
+async function generateRoutes(config: Config, updatedOriginPath?: string) {
   try {
     const startTime = process.hrtime();
     const originRoutes = await getOriginRoutes({ config });
-    const messages = await getMessages(config);
     generateLocalizedRoutes(config, originRoutes, updatedOriginPath);
-    generateDistFiles(config, originRoutes, messages);
+    generateSchemaFile(config, originRoutes);
     const endTime = process.hrtime(startTime);
     const timeDiffInMs = (endTime[0] * 1000 + endTime[1] / 1000000).toFixed(2);
     console.info(
       `\x1b[32mNextGlobeGen\x1b[37m - Localized ${originRoutes.length} files in ${timeDiffInMs}ms`
+    );
+  } catch (error: unknown) {
+    if (error instanceof Error) console.error(error.message);
+  } finally {
+    removeCompiledFiles();
+  }
+}
+
+async function generateMessages(config: Config) {
+  try {
+    const startTime = process.hrtime();
+    generateMessagesFile(config);
+    const endTime = process.hrtime(startTime);
+    const timeDiffInMs = (endTime[0] * 1000 + endTime[1] / 1000000).toFixed(2);
+    console.info(
+      `\x1b[32mNextGlobeGen\x1b[37m - Generated messages in ${timeDiffInMs}ms`
     );
   } catch (error: unknown) {
     if (error instanceof Error) console.error(error.message);

@@ -6,6 +6,7 @@ export type Config<L extends string[] = string[]> = {
   locales: L;
   defaultLocale: L[number];
   prefixDefaultLocale: boolean;
+  messagesWatchDir: string;
   getMessages: (locale: L[number]) => Promise<object> | object;
 };
 

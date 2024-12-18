@@ -3,29 +3,32 @@ import path from "path";
 import type { Config, OriginRoute } from "~/cli/types";
 import { makeDirectory } from "~/cli/utils/fs-utils";
 import { toPascalCase } from "~/cli/utils/string-utils";
-import type { Messages } from "./getMessages";
+import { getMessages } from "./getMessages";
 
 const OUT_DIR = "./.next-globe-gen";
 
 const template = (type: "schema" | "messages") => {
-  return `export const ${type} = {${type}} as const;\n`;
+  return "".concat(
+    `export const ${type} = {${type}} as const;\n\n`,
+    `declare module "next-globe-gen" {\n`,
+    `\tinterface ${toPascalCase(type)}Register {\n`,
+    `\t\t${type}: typeof ${type}\n\t}\n}\n`
+  );
 };
 
-export const typesFile = ["schema", "messages"]
-  .map((type) =>
-    "".concat(
-      `import { ${type} } from "./${type}";\n\n`,
-      `declare module "next-globe-gen" {\n`,
-      `\tinterface ${toPascalCase(type)}Register {\n`,
-      `\t\t${type}: typeof ${type}\n\t}\n}\n`
-    )
-  )
-  .join("\n");
+export function generateDeclarationFile() {
+  const declarationFileContent = "".concat(
+    "/* eslint-disable @typescript-eslint/triple-slash-reference */\n",
+    '/// <reference path="./.next-globe-gen/schema.ts" />\n',
+    '/// <reference path="./.next-globe-gen/messages.ts" />\n'
+  );
+  const declarationFilePath = "next-globe-gen.d.ts";
+  writeFileSync(declarationFilePath, declarationFileContent);
+}
 
-export function generateDistFiles(
+export function generateSchemaFile(
   config: Config,
-  originRoutes: OriginRoute[],
-  messages: Messages
+  originRoutes: OriginRoute[]
 ) {
   const routes: Record<string, Record<string, string>> = {};
   originRoutes.forEach((originRoute) => {
@@ -46,19 +49,19 @@ export function generateDistFiles(
     routes,
   };
   const JSONSchema = JSON.stringify(schema);
-  const JSONMessages = JSON.stringify(messages);
-  const schemaFile = template("schema").replaceAll("{schema}", JSONSchema);
-  const messagesFile = template("messages").replaceAll(
-    "{messages}",
-    JSONMessages
-  );
+  const schemaFile = template("schema").replace("{schema}", JSONSchema);
   const schemaFilePath = path.join(OUT_DIR, "schema.ts");
-  const messagesFilePath = path.join(OUT_DIR, "messages.ts");
-  const typesFilePath = path.join(OUT_DIR, "types.d.ts");
   makeDirectory(OUT_DIR);
   writeFileSync(schemaFilePath, schemaFile);
+}
+
+export async function generateMessagesFile(config: Config) {
+  const messages = await getMessages(config);
+  const JSONMessages = JSON.stringify(messages);
+  const messagesFile = template("messages").replace("{messages}", JSONMessages);
+  const messagesFilePath = path.join(OUT_DIR, "messages.ts");
+  makeDirectory(OUT_DIR);
   writeFileSync(messagesFilePath, messagesFile);
-  writeFileSync(typesFilePath, typesFile);
 }
 
 function isPageOriginRoute(originRoute: OriginRoute) {

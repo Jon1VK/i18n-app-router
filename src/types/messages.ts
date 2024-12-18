@@ -1,7 +1,7 @@
 import type { DefaultLocale, Locale } from "next-globe-gen/schema";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-interface MessagesRegister {}
+export interface MessagesRegister {}
 
 type MockMessages = Record<Locale, Record<string, string>>;
 

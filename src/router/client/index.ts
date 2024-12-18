@@ -8,6 +8,8 @@ import { useTranslationsFactory } from "../shared/useTranslationsFactory";
 import { useLocale, useMessages } from "./IntlProvider";
 import { notSupported } from "./notSupported";
 
+export type * from "~/types/messages";
+export type * from "~/types/schema";
 export type { UserConfig as Config } from "../../cli/types";
 export * from "./IntlProvider";
 export * from "./useRouter";

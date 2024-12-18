@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-interface SchemaRegister {}
+export interface SchemaRegister {}
 
 type MockSchema = {
   locales: string[];
@@ -8,7 +8,9 @@ type MockSchema = {
   routes: Record<string, Record<string, string>>;
 };
 
-type Schema = SchemaRegister extends { schema: infer S } ? S : MockSchema;
+export type Schema = SchemaRegister extends { schema: infer S }
+  ? S
+  : MockSchema;
 
 export declare const schema: Schema;
 
