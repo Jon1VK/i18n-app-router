@@ -17,6 +17,14 @@ export * from "./useRouter";
 export const useHref = useHrefFactory(useLocale);
 export const Link = LinkFactory(useHref);
 export const useTranslations = useTranslationsFactory(useLocale, useMessages);
+
+// Server functions that are not supported on client
+export const getLocale = notSupported("getLocale") as typeof useLocale;
+export const getHref = notSupported("getHref") as typeof useHref;
+export const getMessages = notSupported("getMessages") as typeof useMessages;
+export const getTranslations = notSupported(
+  "getTranslations"
+) as typeof useTranslations;
 export const redirect = notSupported("redirect") as unknown as typeof $redirect;
 export const permanentRedirect = notSupported(
   "permanentRedirect"

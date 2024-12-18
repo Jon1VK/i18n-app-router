@@ -11,3 +11,9 @@ export const useHref = useHrefFactory(useLocale);
 export const Link = LinkFactory(useHref);
 export const useMessages = () => messages;
 export const useTranslations = useTranslationsFactory(useLocale, useMessages);
+
+// Export get versions of functions for async server usage
+export const getLocale = useLocale;
+export const getHref = useHref;
+export const getMessages = useMessages;
+export const getTranslations = useTranslations;
