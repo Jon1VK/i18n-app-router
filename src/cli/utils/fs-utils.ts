@@ -1,4 +1,5 @@
 import { existsSync, mkdirSync, rmSync, statSync } from "fs";
+import path from "path";
 
 /**
  * Indicates if a path points to a directory
@@ -29,4 +30,11 @@ export function makeDirectory(path: string) {
  */
 export function rmDirectory(path: string) {
   rmSync(path, { recursive: true, force: true });
+}
+
+/**
+ * Guarantees that a path uses posix separator
+ */
+export function toPosixPath(s: string) {
+  return s.replaceAll(path.sep, path.posix.sep);
 }

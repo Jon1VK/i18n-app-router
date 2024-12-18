@@ -7,7 +7,7 @@ import {
 } from "fs";
 import path from "path";
 import type { Config, OriginRoute } from "~/cli/types";
-import { makeDirectory } from "~/cli/utils/fs-utils";
+import { makeDirectory, toPosixPath } from "~/cli/utils/fs-utils";
 import { toPascalCase } from "~/cli/utils/string-utils";
 import { getTemplateCompiler } from "./getTemplateCompiler";
 
@@ -39,7 +39,7 @@ export function generateLocalizedRoutes(
         const relativePath = path.join(relativeDirPath, originRoute.type);
         const compiledContents = compileTemplate({
           routeType: toPascalCase(originRoute.type),
-          relativePath,
+          relativePath: toPosixPath(relativePath),
           locale,
         });
         writeFileSync(localizedPath, compiledContents);
