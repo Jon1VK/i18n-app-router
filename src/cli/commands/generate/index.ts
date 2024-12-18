@@ -41,10 +41,12 @@ async function generateAction(args: { config: string; watch: boolean }) {
   const userConfig = await compile<{ default: UserConfig }>(args.config);
   const config: Config = { ...DEFAULT_CONFIG, ...userConfig.default };
   if (!isDirectory(config.originDir)) throw originDirNotFoundError(config);
-  rmDirectory(config.localizedDir);
   generateDeclarationFile();
-  await generateRoutes(config);
-  await generateMessages(config);
+  if (!args.watch) {
+    rmDirectory(config.localizedDir);
+    await generateRoutes(config);
+    await generateMessages(config);
+  }
   if (args.watch) {
     watch(config.originDir, { recursive: true }, (_, fileName) => {
       if (!fileName) return;

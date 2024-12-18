@@ -1,5 +1,5 @@
 import type { NextConfig } from "next";
-import { spawn } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 import { addAliases } from "./addAliases";
 
 export function withNextGlobeGenPlugin(configPath = "./i18n.config.ts") {
@@ -15,6 +15,12 @@ export function withNextGlobeGenPlugin(configPath = "./i18n.config.ts") {
 
 function useGenerator(configPath: string) {
   try {
+    spawnSync(`npx next-globe-gen --config ${configPath}`, {
+      cwd: process.cwd(),
+      stdio: "inherit",
+      shell: true,
+    });
+    if (process.env.NODE_ENV !== "development") return;
     spawn(`npx next-globe-gen --watch --config ${configPath}`, {
       cwd: process.cwd(),
       stdio: "inherit",
