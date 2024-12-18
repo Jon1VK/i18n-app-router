@@ -1,10 +1,9 @@
+import { messages } from "next-globe-gen/messages";
 import { LinkFactory } from "../shared/LinkFactory";
-import { messages } from "../shared/messages";
 import { useHrefFactory } from "../shared/useHrefFactory";
 import { useTranslationsFactory } from "../shared/useTranslationsFactory";
 import { useLocale } from "./LocaleStore";
 
-export * from "../shared/schema";
 export * from "./LocaleStore";
 export * from "./redirect";
 

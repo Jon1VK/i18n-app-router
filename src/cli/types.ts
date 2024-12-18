@@ -19,9 +19,3 @@ export type OriginRoute = {
   path: string;
   localizedPaths: Record<string, string>;
 };
-
-export type Schema = {
-  locales: string[];
-  defaultLocale: string;
-  routes: Record<string, Record<string, string>>;
-};

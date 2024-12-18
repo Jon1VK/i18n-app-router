@@ -1,11 +1,14 @@
 import type { NextConfig } from "next";
 import { spawn } from "node:child_process";
-import { addAlias } from "./addAlias";
+import { addAliases } from "./addAliases";
 
 export function withNextGlobeGenPlugin(configPath = "./i18n.config.ts") {
   if (!process.env.NEXT_PRIVATE_WORKER) useGenerator(configPath);
   return function withNextGlobeGen(config: NextConfig) {
-    addAlias(config, { "next-globe-gen/config": configPath });
+    addAliases(config, {
+      "next-globe-gen/schema": "./.next-globe-gen/schema.ts",
+      "next-globe-gen/messages": "./.next-globe-gen/messages.ts",
+    });
     return config;
   };
 }

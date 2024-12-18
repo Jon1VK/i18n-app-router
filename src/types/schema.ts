@@ -1,4 +1,5 @@
-import { CliError } from "./errors";
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+interface SchemaRegister {}
 
 type MockSchema = {
   locales: string[];
@@ -7,13 +8,10 @@ type MockSchema = {
   routes: Record<string, Record<string, string>>;
 };
 
-export const schema = "{{schema}}" as unknown as MockSchema;
+type Schema = SchemaRegister extends { schema: infer S } ? S : MockSchema;
 
-if (typeof schema === "string") {
-  throw new CliError("Router schema for next-globe-gen has not been generated");
-}
+export declare const schema: Schema;
 
-type Schema = typeof schema;
 export type Locale = Schema["locales"][number];
 export type DefaultLocale = Schema["defaultLocale"];
 export type Route = keyof Schema["routes"];

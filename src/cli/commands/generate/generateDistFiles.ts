@@ -1,9 +1,26 @@
-import { readFileSync, writeFileSync } from "fs";
+import { writeFileSync } from "fs";
 import path from "path";
 import type { Config, OriginRoute } from "~/cli/types";
+import { makeDirectory } from "~/cli/utils/fs-utils";
+import { toPascalCase } from "~/cli/utils/string-utils";
 import type { Messages } from "./getMessages";
 
-const DIST_DIR = "./node_modules/next-globe-gen/dist";
+const OUT_DIR = "./.next-globe-gen";
+
+const template = (type: "schema" | "messages") => {
+  return `export const ${type} = {${type}} as const;\n`;
+};
+
+export const typesFile = ["schema", "messages"]
+  .map((type) =>
+    "".concat(
+      `import { ${type} } from "./${type}";\n\n`,
+      `declare module "next-globe-gen" {\n`,
+      `\tinterface ${toPascalCase(type)}Register {\n`,
+      `\t\t${type}: typeof ${type}\n\t}\n}\n`
+    )
+  )
+  .join("\n");
 
 export function generateDistFiles(
   config: Config,
@@ -28,31 +45,19 @@ export function generateDistFiles(
     prefixDefaultLocale: config.prefixDefaultLocale,
     routes,
   };
-  const clientTemplatePath = path.join(DIST_DIR, "index.client.template.js");
-  const serverTemplatePath = path.join(DIST_DIR, "index.server.template.js");
-  const middlewareTemplatePath = path.join(DIST_DIR, "middleware.template.js");
-  const typesTemplatePath = path.join(DIST_DIR, "index.client.template.d.ts");
-  const clientTemplate = readFileSync(clientTemplatePath).toString();
-  const serverTemplate = readFileSync(serverTemplatePath).toString();
-  const middlewareTemplate = readFileSync(middlewareTemplatePath).toString();
-  const typesTemplate = readFileSync(typesTemplatePath).toString();
   const JSONSchema = JSON.stringify(schema);
   const JSONMessages = JSON.stringify(messages);
-  const clientFile = clientTemplate.replace('"{{schema}}"', JSONSchema);
-  const serverFile = serverTemplate
-    .replace('"{{schema}}"', JSONSchema)
-    .replace('"{{messages}}"', JSONMessages);
-  const middlewareFile = middlewareTemplate.replace(`"{{schema}}"`, JSONSchema);
-  const typesFile = typesTemplate
-    .replace("MockSchema;", `${JSONSchema};`)
-    .replace("MockMessages;", `${JSONMessages};`);
-  const clientFilePath = path.join(DIST_DIR, "index.client.js");
-  const serverFilePath = path.join(DIST_DIR, "index.server.js");
-  const middlewareFilePath = path.join(DIST_DIR, "middleware.js");
-  const typesFilePath = path.join(DIST_DIR, "index.client.d.ts");
-  writeFileSync(clientFilePath, clientFile);
-  writeFileSync(serverFilePath, serverFile);
-  writeFileSync(middlewareFilePath, middlewareFile);
+  const schemaFile = template("schema").replaceAll("{schema}", JSONSchema);
+  const messagesFile = template("messages").replaceAll(
+    "{messages}",
+    JSONMessages
+  );
+  const schemaFilePath = path.join(OUT_DIR, "schema.ts");
+  const messagesFilePath = path.join(OUT_DIR, "messages.ts");
+  const typesFilePath = path.join(OUT_DIR, "types.d.ts");
+  makeDirectory(OUT_DIR);
+  writeFileSync(schemaFilePath, schemaFile);
+  writeFileSync(messagesFilePath, messagesFile);
   writeFileSync(typesFilePath, typesFile);
 }
 

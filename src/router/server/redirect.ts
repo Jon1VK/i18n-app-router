@@ -1,10 +1,10 @@
+import type { Route } from "next-globe-gen/schema";
 import {
   type RedirectType,
   permanentRedirect as nextPermanentRedirect,
   redirect as nextRedirect,
 } from "next/navigation";
 import { useHref } from ".";
-import type { Route } from "../shared/schema";
 import {
   type UseHrefArgs,
   extractUseHrefOptions,

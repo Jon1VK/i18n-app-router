@@ -1,9 +1,14 @@
+import type {
+  DynamicRoute,
+  Locale,
+  Route,
+  RouteParams,
+} from "next-globe-gen/schema";
 import {
   default as NextLink,
   type LinkProps as NextLinkProps,
 } from "next/link";
 import React from "react";
-import type { DynamicRoute, Locale, Route, RouteParams } from "./schema";
 import {
   extractUseHrefOptions,
   type UseHrefArgs,

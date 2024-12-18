@@ -1,5 +1,5 @@
+import type { Locale } from "next-globe-gen/schema";
 import { cache } from "react";
-import type { Locale } from "../shared/schema";
 
 type LocaleStore = { locale: Locale };
 

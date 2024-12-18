@@ -1,3 +1,4 @@
+import type { Route } from "next-globe-gen/schema";
 import type {
   AppRouterInstance,
   NavigateOptions,
@@ -5,7 +6,6 @@ import type {
 } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter as useNextRouter } from "next/navigation";
 import { useHref } from ".";
-import type { Route } from "../shared/schema";
 import {
   type UseHrefArgs,
   extractUseHrefOptions,

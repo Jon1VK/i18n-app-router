@@ -1,8 +1,6 @@
-import { RouterError } from "../shared/errors";
-
 export function notSupported(functionName: string) {
   return () => {
-    throw new RouterError(
+    throw new Error(
       `\`${functionName}\` is not supported in Client Components.`
     );
   };

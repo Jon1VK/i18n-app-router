@@ -16,7 +16,9 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": ["src/*"]
+      "~/*": ["src/*"],
+      "next-globe-gen/schema": ["src/types/schema"],
+      "next-globe-gen/messages": ["src/types/messages"]
     }
   },
   "include": ["src"],

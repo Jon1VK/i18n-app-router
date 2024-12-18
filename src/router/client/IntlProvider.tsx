@@ -1,8 +1,8 @@
 "use client";
 
+import type { Messages } from "next-globe-gen/messages";
+import type { Locale } from "next-globe-gen/schema";
 import { createContext, use, type ReactNode } from "react";
-import type { Messages } from "../shared/messages";
-import type { Locale } from "../shared/schema";
 
 const IntlContext = createContext<{
   locale: Locale;

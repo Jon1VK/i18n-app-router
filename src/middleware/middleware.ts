@@ -1,8 +1,8 @@
 import { match } from "@formatjs/intl-localematcher";
 import Negotiator from "negotiator";
+import { schema, type Locale } from "next-globe-gen/schema";
 import { NextResponse, type NextRequest } from "next/server";
 import { compile, match as pathMatcher } from "path-to-regexp";
-import { schema, type Locale } from "../router/shared/schema";
 
 export function middleware(request: NextRequest) {
   const [locale_, pathname] = getLocaleAndPathname(request.nextUrl.pathname);

@@ -1,12 +1,11 @@
-import { compile } from "path-to-regexp";
-import { RouterError } from "./errors";
 import {
   schema,
   type DynamicRoute,
   type Locale,
   type Route,
   type RouteParams,
-} from "./schema";
+} from "next-globe-gen/schema";
+import { compile } from "path-to-regexp";
 
 export type UseHrefOptions<R extends Route> = {
   route: R;
@@ -26,9 +25,9 @@ export function useHrefFactory(useLocale: () => Locale) {
   return function useHref<R extends Route>(...args: UseHrefArgs<R>) {
     const { route, params, query, locale } = extractUseHrefOptions(args);
     const localizedPaths = schema.routes[route];
-    if (!localizedPaths) throw new RouterError(`Invalid route "${route}"`);
+    if (!localizedPaths) throw new Error(`Invalid route "${route}"`);
     const path = localizedPaths[locale ?? useLocale()];
-    if (!path) throw new RouterError(`Invalid locale "${locale}"`);
+    if (!path) throw new Error(`Invalid locale "${locale}"`);
     const searchParams = new URLSearchParams(query);
     const compiler = compile(path);
     return `${compiler(params)}?${searchParams}`;

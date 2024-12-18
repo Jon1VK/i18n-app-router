@@ -1,17 +1,15 @@
-import { CliError } from "./errors";
-import type { DefaultLocale, Locale } from "./schema";
+import type { DefaultLocale, Locale } from "next-globe-gen/schema";
+
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+interface MessagesRegister {}
 
 type MockMessages = Record<Locale, Record<string, string>>;
 
-export const messages = "{{messages}}" as unknown as MockMessages;
+export type Messages = MessagesRegister extends { messages: infer S }
+  ? S
+  : MockMessages;
 
-if (typeof messages === "string") {
-  throw new CliError(
-    "The translated messages for next-globe-gen has not been generated"
-  );
-}
-
-export type Messages = typeof messages;
+export declare const messages: Messages;
 
 /**
  * All possible message keys. Used default locale by default

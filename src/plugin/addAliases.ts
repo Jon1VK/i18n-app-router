@@ -6,7 +6,7 @@ import { resolve } from "node:path";
  * @param config The Next.js config object
  * @param aliases A map of aliases to their relative paths
  */
-export function addAlias(
+export function addAliases(
   nextConfig: NextConfig,
   aliases: Record<string, string>
 ) {
