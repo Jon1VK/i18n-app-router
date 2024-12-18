@@ -23,6 +23,7 @@ Create the following file structure, which the package assumes is present by def
 ```treeview
 .
 ├── i18n.config.ts 1)
+├── next.config.ts 1)
 ├── messages/ 2)
 │   ├── en.json
 │   └── <locale>.json
@@ -51,6 +52,23 @@ const config: Config = {
 export default config;
 ```
 
+In addition to creating the `i18n.config.ts`-configuration file, you need to enable the NextGlobeGen plugin in the `next.config.ts` file.
+
+```ts
+// ./next.config.ts
+
+import type { NextConfig } from "next";
+import { withNextGlobeGenPlugin } from "next-globe-gen/plugin";
+
+const withNextGlobeGen = withNextGlobeGenPlugin();
+
+const nextConfig: NextConfig = {
+  /* Next.js config options here */
+};
+
+export default withNextGlobeGen(nextConfig);
+```
+
 ### <span style={{ color: "#addb67"}}>2)</span> Messages
 
 Create message translation JSON files to the `messages`-directory. There should be one `<locale>.json`-file for each configured `locale`.
@@ -65,7 +83,7 @@ Create message translation JSON files to the `messages`-directory. There should 
 
 ### <span style={{ color: "#addb67"}}>3)</span> Routing
 
-Create your Next.js file-system based routing into the `_app`-directory exactly the same way as you would in the `app` directory. Inside these files you can use the NextGlobeGen package APIs to get the current locale and translations.
+Create your Next.js file-system based routing into the `_app`-directory exactly the same way as you would in the `app` directory. You can use the NextGlobeGen package APIs to get the current locale and translations.
 
 ```tsx
 // ./src/_app/layout.tsx
@@ -113,26 +131,22 @@ export const config = {
 };
 ```
 
-## Running the Generator
+## Running the App
 
-After the setup has been done, run the following command to generate the locale-prefixed routes:
-
-```
-npx next-globe-gen
-```
-
-You should be greeted with the following text:
+After the setup has been done, start the Next.js development server and enjoy the seamless internationalization experience.
 
 ```
-  _  _ _____  _______ ___ _    ___  ___ ___ ___ ___ _  _
- | \| | __\ \/ /_   _/ __| |  / _ \| _ ) __/ __| __| \| |
- | .` | _| >  <  | || (_ | |_| (_) | _ \ _| (_ | _|| .` |
- |_|\_|___/_/\_\ |_| \___|____\___/|___/___\___|___|_|\_|
-
-NextGlobeGen - Localized 2 files in 74.53ms
+npm run dev
 ```
 
-After running the generator, the file structure in the `app`-directory updates to the following:
+You should be greeted with the following lines:
+
+```
+NextGlobeGen - Localized 3 files in 4.17ms
+NextGlobeGen - Generated messages in 0.05ms
+```
+
+The NextGlobeGen plugin generated required files for the app so that the routes can be served in the configured locales. For example the file structure in the `app`-directory updates to the following:
 
 ```treeview
 src/
@@ -147,7 +161,3 @@ src/
 ```
 
 Next.js uses now these routes as it's source for file-based routing. You can also inspect what each generated file includes in the `./src/app/(i18n)`-directory.
-
-:::info
-
-You have to run the generator again whenever you alter the routing structure or the message translation files.
