@@ -31,7 +31,7 @@ const Content = () => {
       </p>
       <div className="mt-10 flex font-semibold flex-wrap items-center gap-6">
         <a
-          href="./docs/introduction"
+          href="./docs/getting-started"
           className="rounded-xl bg-sky-700/70 hover:bg-sky-700/90 px-6 py-3 text-white hover:text-white"
         >
           Get Started <span aria-hidden="true">→</span>

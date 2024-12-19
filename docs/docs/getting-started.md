@@ -10,9 +10,9 @@ If you haven’t done so already, [create new a Next.js app](https://nextjs.org/
 
 ## Installation
 
-Install the package by running:
+Install the package by running the following command.
 
-```
+```bash title="Installation command"
 npm install next-globe-gen
 ```
 
@@ -20,43 +20,47 @@ npm install next-globe-gen
 
 Create the following file structure, which the package assumes is present by default. The default directory and file locations can be altered by configuration, but let's use the defaults for now.
 
-```treeview
+```treeview title="File structure"
 .
 ├── i18n.config.ts 1)
-├── next.config.ts 1)
-├── messages/ 2)
-│   ├── en.json
-│   └── <locale>.json
+├── next.config.ts 2)
 └── src/
-    ├── _app/ 3)
+    ├── messages/ 3)
+    │   ├── en.json
+    │   └── fi.json
+    ├── _app/ 4)
     │   ├── layout.tsx
     │   └── page.tsx
     ├── app/
-    └── middleware.ts 4)
+    └── middleware.ts 5)
 ```
 
 ### <span style={{ color: "#addb67"}}>1)</span> Configuration
 
 Create an `i18n.config.ts`-file to the application root directory and export your configuration as a default export. You have to at least configure what locales the application supports and what is the default locale.
 
-```ts
-// ./i18n.config.ts
-
+```ts title="./i18n.config.ts"
 import type { Config } from "next-globe-gen";
 
 const config: Config = {
-  locales: ["en", <locale>],
+  locales: ["en", "fi"],
   defaultLocale: "en",
 };
 
 export default config;
 ```
 
-In addition to creating the `i18n.config.ts`-configuration file, you need to enable the NextGlobeGen plugin in the `next.config.ts` file.
+### <span style={{ color: "#addb67"}}>2)</span> Plugin
 
-```ts
-// ./next.config.ts
+Enable the NextGlobeGen plugin in the `next.config.ts`.
 
+:::info
+
+NextGlobeGen plugin handles generating the required files each time something is changed.
+
+:::
+
+```ts title="./next.config.ts"
 import type { NextConfig } from "next";
 import { withNextGlobeGenPlugin } from "next-globe-gen/plugin";
 
@@ -69,25 +73,33 @@ const nextConfig: NextConfig = {
 export default withNextGlobeGen(nextConfig);
 ```
 
-### <span style={{ color: "#addb67"}}>2)</span> Messages
+### <span style={{ color: "#addb67"}}>3)</span> Messages
 
-Create message translation JSON files to the `messages`-directory. There should be one `<locale>.json`-file for each configured `locale`.
+Create message translations to the `./src/messages`-directory. There should be one `<locale>.json`-file for each configured `locale`.
 
-```json
-// ./messages/en.json
-
+```json title="./src/messages/en.json"
 {
   "hello": "Hello {name}"
 }
 ```
 
-### <span style={{ color: "#addb67"}}>3)</span> Routing
+```json title="./src/messages/fi.json"
+{
+  "hello": "Hei {name}"
+}
+```
 
-Create your Next.js file-system based routing into the `_app`-directory exactly the same way as you would in the `app` directory. You can use the NextGlobeGen package APIs to get the current locale and translations.
+### <span style={{ color: "#addb67"}}>4)</span> Routing
 
-```tsx
-// ./src/_app/layout.tsx
+Move your Next.js file-system based routing into the `_app`-directory from the `app`-directory.
 
+:::info
+
+You can use the NextGlobeGen package APIs to get the current locale and translations.
+
+:::
+
+```tsx title="./src/_app/layout.tsx"
 import { useLocale } from "next-globe-gen";
 import { ReactNode } from "react";
 
@@ -101,9 +113,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 }
 ```
 
-```tsx
-// ./src/_app/page.tsx
-
+```tsx title="./src/_app/page.tsx"
 import { useTranslations } from "next-globe-gen";
 
 export default function Home() {
@@ -116,13 +126,11 @@ export default function Home() {
 }
 ```
 
-### <span style={{ color: "#addb67"}}>4)</span> Middleware
+### <span style={{ color: "#addb67"}}>5)</span> Middleware
 
 Add middleware to the application by exporting NextGlobeGen `middleware` from `middleware.ts` file. The middleware handles locale negotiation and redirects to locale-prefixed path if the path has no locale yet.
 
-```tsx
-// ./src/middleware.ts
-
+```tsx title="./src/middleware.ts"
 export { middleware } from "next-globe-gen/middleware";
 
 export const config = {
@@ -135,29 +143,34 @@ export const config = {
 
 After the setup has been done, start the Next.js development server and enjoy the seamless internationalization experience.
 
-```
+```bash title="Run command"
 npm run dev
 ```
 
-You should be greeted with the following lines:
+The NextGlobeGen plugin generates the required files for the app so that the routes can be served in the configured locales.
 
-```
-NextGlobeGen - Localized 3 files in 4.17ms
-NextGlobeGen - Generated messages in 0.05ms
-```
+:::info
 
-The NextGlobeGen plugin generated required files for the app so that the routes can be served in the configured locales. For example the file structure in the `app`-directory updates to the following:
+The files that this package generates should be added to `.gitignore`. With default config these directories and files are generated: `.next-globe-gen/`, `src/app/(i18n)/`, `next-globe-gen.d.ts`.
 
-```treeview
+:::
+
+:::tip
+
+You can inspect what each generated file has eaten, if you would like to know how the package works underneath the hood.
+
+:::
+
+For example the file structure in the `app`-directory, which Next.js uses for it's file-system based routing, updates to the following:
+
+```treeview title="Final app structure"
 src/
 └── app/
     └── (i18n)/
         ├── en/
         │   ├── layout.tsx
         │   └── page.tsx
-        └── <locale>/
+        └── fi/
             ├── layout.tsx
             └── page.tsx
 ```
-
-Next.js uses now these routes as it's source for file-based routing. You can also inspect what each generated file includes in the `./src/app/(i18n)`-directory.

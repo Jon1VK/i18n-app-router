@@ -19,9 +19,9 @@ export const DEFAULT_CONFIG: Config = {
   locales: [],
   defaultLocale: "",
   prefixDefaultLocale: true,
-  messagesWatchDir: "./messages",
+  messagesWatchDir: "./src/messages",
   async getMessages(locale) {
-    const content = readFileSync(`./messages/${locale}.json`).toString();
+    const content = readFileSync(`./src/messages/${locale}.json`).toString();
     return JSON.parse(content);
   },
 };
