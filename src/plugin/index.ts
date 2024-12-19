@@ -15,18 +15,20 @@ export function withNextGlobeGenPlugin(configPath = "./i18n.config.ts") {
 
 function useGenerator(configPath: string) {
   try {
-    spawnSync(`npx next-globe-gen --config ${configPath}`, {
-      cwd: process.cwd(),
-      stdio: "inherit",
-      shell: true,
-    });
-    if (process.env.NODE_ENV !== "development") return;
-    spawn(`npx next-globe-gen --watch --config ${configPath}`, {
-      cwd: process.cwd(),
-      stdio: "inherit",
-      shell: true,
-      detached: false,
-    });
+    if (process.env.NODE_ENV === "development") {
+      spawn(`npx next-globe-gen --watch --config ${configPath}`, {
+        cwd: process.cwd(),
+        stdio: "inherit",
+        shell: true,
+        detached: false,
+      });
+    } else {
+      spawnSync(`npx next-globe-gen --config ${configPath}`, {
+        cwd: process.cwd(),
+        stdio: "inherit",
+        shell: true,
+      });
+    }
   } catch (_e) {
     console.error("Failed to spawn the NextGlobeGen compiler process");
   }

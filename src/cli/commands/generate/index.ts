@@ -1,6 +1,7 @@
 import { Command } from "commander";
 import { readFileSync, watch } from "fs";
 import type { Config, UserConfig } from "~/cli/types";
+import { debounce } from "~/cli/utils/debounce";
 import { isDirectory, isFile, rmDirectory } from "~/cli/utils/fs-utils";
 import { compile, removeCompiledFiles } from "~/cli/utils/ts-utils";
 import { configNotFoundError, originDirNotFoundError } from "./errors";
@@ -42,18 +43,16 @@ async function generateAction(args: { config: string; watch: boolean }) {
   const config: Config = { ...DEFAULT_CONFIG, ...userConfig.default };
   if (!isDirectory(config.originDir)) throw originDirNotFoundError(config);
   generateDeclarationFile();
-  if (!args.watch) {
-    rmDirectory(config.localizedDir);
-    await generateRoutes(config);
-    await generateMessages(config);
-  }
+  rmDirectory(config.localizedDir);
+  await generateRoutes(config);
+  await generateMessages(config);
   if (args.watch) {
     watch(config.originDir, { recursive: true }, (_, fileName) => {
       if (!fileName) return;
-      generateRoutes(config, `/${fileName}`);
+      debouncedGenerateRoutes(config, `/${fileName}`);
     });
     watch(config.messagesWatchDir, { recursive: true }, () => {
-      generateMessages(config);
+      debouncedGenerateMessages(config);
     });
   }
 }
@@ -76,6 +75,8 @@ async function generateRoutes(config: Config, updatedOriginPath?: string) {
   }
 }
 
+const debouncedGenerateRoutes = debounce(generateRoutes, 250);
+
 async function generateMessages(config: Config) {
   try {
     const startTime = process.hrtime();
@@ -87,7 +88,7 @@ async function generateMessages(config: Config) {
     );
   } catch (error: unknown) {
     if (error instanceof Error) console.error(error.message);
-  } finally {
-    removeCompiledFiles();
   }
 }
+
+const debouncedGenerateMessages = debounce(generateMessages, 250);

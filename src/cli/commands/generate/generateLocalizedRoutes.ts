@@ -18,7 +18,8 @@ export function generateLocalizedRoutes(
   originRoutes: OriginRoute[],
   updatedOriginPath?: string
 ) {
-  const { newPaths, removedPaths } = getPathDiffs(originRoutes);
+  const { newPaths, removedPaths } = getPathDiffs(prevRoutes, originRoutes);
+  prevRoutes = originRoutes;
   originRoutes.forEach((originRoute) => {
     if (!needsUpdate(originRoute, newPaths, updatedOriginPath)) return;
     const originPath = path.join(config.originDir, originRoute.path);
@@ -47,10 +48,9 @@ export function generateLocalizedRoutes(
     );
   });
   deleteRemovedPaths(config, removedPaths);
-  prevRoutes = originRoutes;
 }
 
-function getPathDiffs(originRoutes: OriginRoute[]) {
+function getPathDiffs(prevRoutes: OriginRoute[], originRoutes: OriginRoute[]) {
   const prevPaths = new Set(
     prevRoutes.flatMap(({ localizedPaths }) => Object.values(localizedPaths))
   );

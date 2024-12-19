@@ -11,11 +11,14 @@ export async function compile<T>(filePath: string) {
     config: false,
     target: "node18",
     outDir: OUT_DIR,
+    format: "esm",
     entryPoints: { [`${outputFileName}`]: filePath },
     silent: true,
   });
-  const compiledPath = path.resolve(OUT_DIR, outputFileName);
-  return require(compiledPath) as T;
+  // Hack to import always the latest i18n.ts files
+  const version = new Date().getTime();
+  const compiledPath = `${path.resolve(OUT_DIR, outputFileName)}.mjs?version${version}`;
+  return (await import(compiledPath)) as T;
 }
 
 export function removeCompiledFiles() {
