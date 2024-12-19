@@ -1,6 +1,7 @@
 import { createHash } from "crypto";
 import path from "path";
 import { build } from "tsup";
+import { pathToFileURL } from "url";
 import { rmDirectory } from "./fs-utils";
 
 const OUT_DIR = "./node_modules/next-globe-gen/dist/tmp";
@@ -17,7 +18,7 @@ export async function compile<T>(filePath: string) {
   });
   // Hack to import always the latest i18n.ts files
   const version = new Date().getTime();
-  const compiledPath = `${path.resolve(OUT_DIR, outputFileName)}.mjs?version${version}`;
+  const compiledPath = `${pathToFileURL(path.resolve(OUT_DIR, outputFileName))}.mjs?version=${version}`;
   return (await import(compiledPath)) as T;
 }
 
